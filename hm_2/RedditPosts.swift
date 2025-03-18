@@ -26,7 +26,7 @@ struct RawRedditResponce: Codable {
         let ups:   Int
         let downs: Int
         let created: Double
-        let preview: ImagePreview
+        let preview: ImagePreview?
     }
     
     struct ImagePreview: Codable {
@@ -58,7 +58,7 @@ struct RedditPost {
 // =========================================================
 
 // NOTE: Only returns and error if JSONDecoder failed to decode.
-//       Whitch mean that data passed in was invalid for decoding into RedditResponce
+//       Whitch means that data passed in was invalid for decoding into RedditResponce
 func getRedditUserPostsData(from data: Data) -> Result<[RedditPost], Error> {
     
     do {
@@ -72,11 +72,11 @@ func getRedditUserPostsData(from data: Data) -> Result<[RedditPost], Error> {
             let domain = userPost.data.domain
             let title  = userPost.data.title
             let rating = userPost.data.ups - userPost.data.downs
-            let images_invalid = userPost.data.preview.images.map{$0.source.url}
-            let images_valid   = images_invalid.map {$0.replacingOccurrences(of: "&amp;", with: "&")}
+            let images_invalid = userPost.data.preview?.images.map{$0.source.url}
+            let images_valid   = images_invalid?.map {$0.replacingOccurrences(of: "&amp;", with: "&")}
             let time = Date().timeIntervalSince(Date(timeIntervalSince1970: TimeInterval(userPost.data.created)))
             
-            let responce = RedditPost(author_fullname: author_fullname, domain: domain, title: title, num_comments: num_comments, rating: rating, images: images_valid, time: time, saved: Bool.random())
+            let responce = RedditPost(author_fullname: author_fullname, domain: domain, title: title, num_comments: num_comments, rating: rating, images: images_valid ?? [], time: time, saved: Bool.random())
             
             responces.append(responce)
         }
@@ -89,9 +89,9 @@ func getRedditUserPostsData(from data: Data) -> Result<[RedditPost], Error> {
 
 
 
-func getRedditPosts() async -> [RedditPost] {
+func getRedditPosts(limit: Int, after: Int = 0) async -> [RedditPost] {
     let url        = "https://www.reddit.com/r/ios/top.json"
-    let parameters = ["limit": "1"]
+    let parameters = ["limit": "\(limit)", "after": "\(after)"]
     
     let result = await betterWayToRetrieve(url: url, parameters: parameters)
     
