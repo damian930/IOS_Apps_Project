@@ -16,17 +16,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Unh-J5-w1x">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eFK-sm-iR9">
                                 <rect key="frame" x="0.0" y="59" width="430" height="839"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="reddit post cell" rowHeight="400" translatesAutoresizingMaskIntoConstraints="NO" id="loE-hl-hWz" customClass="RedditPost_TableCell" customModule="hm_2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="430" height="400"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reddit cell" id="tz8-7d-Es0" customClass="RedditPost_TableCell" customModule="hm_2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="430" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="loE-hl-hWz" translatesAutoresizingMaskIntoConstraints="NO" id="4C5-ru-qUI">
-                                            <rect key="frame" x="0.0" y="0.0" width="430" height="400"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tz8-7d-Es0" id="FaB-fi-bv3">
+                                            <rect key="frame" x="0.0" y="0.0" width="430" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69j-bi-AXV" customClass="RedditPostView" customModule="hm_2" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="430" height="43.666666666666664"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="69j-bi-AXV" firstAttribute="leading" secondItem="FaB-fi-bv3" secondAttribute="leading" id="Aoh-Th-7L9"/>
+                                                <constraint firstAttribute="trailing" secondItem="69j-bi-AXV" secondAttribute="trailing" id="VZV-r8-B7X"/>
+                                                <constraint firstAttribute="bottom" secondItem="69j-bi-AXV" secondAttribute="bottom" id="m6r-qc-fm0"/>
+                                                <constraint firstItem="69j-bi-AXV" firstAttribute="top" secondItem="FaB-fi-bv3" secondAttribute="top" id="quN-eZ-70W"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="redditPostView" destination="69j-bi-AXV" id="RuC-tW-DZ0"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -34,14 +49,14 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Unh-J5-w1x" secondAttribute="trailing" id="Gzf-PB-kDa"/>
-                            <constraint firstItem="Unh-J5-w1x" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="YYr-a4-3nO"/>
-                            <constraint firstItem="Unh-J5-w1x" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="oej-6L-fCu"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Unh-J5-w1x" secondAttribute="bottom" id="xSS-gQ-KWs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="eFK-sm-iR9" secondAttribute="bottom" id="LR6-R8-6dU"/>
+                            <constraint firstItem="eFK-sm-iR9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="MyV-Ga-M8S"/>
+                            <constraint firstItem="eFK-sm-iR9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="VbO-bT-MMi"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eFK-sm-iR9" secondAttribute="trailing" id="cp5-Mu-1d1"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="tableView" destination="Unh-J5-w1x" id="M6n-AY-8rg"/>
+                        <outlet property="postsTable" destination="eFK-sm-iR9" id="zli-kM-wVj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

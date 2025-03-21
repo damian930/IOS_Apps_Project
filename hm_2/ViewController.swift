@@ -10,51 +10,58 @@ import SDWebImage
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
-    
     private var redditPosts = [RedditPost]()
+    
+    private let CELL_ID = "reddit cell"
+    
+    @IBOutlet private weak var postsTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.rowHeight = UITableView.automaticDimension
+        self.postsTable.rowHeight          = UITableView.automaticDimension
+        self.postsTable.estimatedRowHeight = 400
         
-        tableView.register(RedditPost_TableCell.nib(), forCellReuseIdentifier: RedditPost_TableCell.identifier)
+        //        Run time error
+        //        self.postsTable.register(RedditPost_TableCell.self, forCellReuseIdentifier: self.CELL_ID)
         
-        self.tableView.dataSource = self
-        self.tableView.delegate   = self
+        self.postsTable.dataSource = self
+        self.postsTable.delegate   = self
         
         Task {
             
-            self.redditPosts = await getRedditPosts(limit: 4)
+            self.redditPosts = await getRedditPosts(limit: 3)
             
-            self.tableView.reloadData()
+            self.postsTable.reloadData()
             
+    
         }
         
     }
+
+    
 }
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.redditPosts.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: RedditPost_TableCell.identifier, for: indexPath) as! RedditPost_TableCell
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! RedditPost_TableCell
         
         let redditPost = self.redditPosts[indexPath.item]
-        cell.redditPostView.update_synchronously(newRedditPost: redditPost)
+        cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost)
         
         return cell
-
+        
     }
-
-
+    
 }
 
 extension ViewController: UITableViewDelegate {
-
+    
 }
 
 
@@ -66,7 +73,7 @@ extension ViewController: UITableViewDelegate {
 
 
 // @ TODO: add the button back into the reddit view
-    
+
 //    @IBAction func savedButtonPressed(_ sender: UIButton) {
 //        // Unwrapping optional post and saving state for logging
 //        guard var post = currentPost else { return }
