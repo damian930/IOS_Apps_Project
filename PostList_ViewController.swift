@@ -8,7 +8,7 @@
 import UIKit
 import SDWebImage
 
-final class ViewController: UIViewController {
+final class PostList_ViewController: UIViewController {
     
     private var redditPosts = [RedditPost]()
     
@@ -81,7 +81,7 @@ final class ViewController: UIViewController {
     
 }
 
-extension ViewController: UITableViewDataSource {
+extension PostList_ViewController: UITableViewDataSource {
     // How many rows will be in the table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.redditPosts.count
@@ -135,7 +135,7 @@ extension ViewController: UITableViewDataSource {
 
 
 
-extension ViewController: UITableViewDelegate {
+extension PostList_ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
