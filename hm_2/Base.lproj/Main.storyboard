@@ -16,27 +16,57 @@
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eFK-sm-iR9">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eFK-sm-iR9">
                                 <rect key="frame" x="0.0" y="103" width="430" height="795"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="separatorColor" systemColor="labelColor"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="ehL-Wl-ztp">
+                                    <rect key="frame" x="0.0" y="0.0" width="430" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SubReddit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Br6-u6-ZBc">
+                                            <rect key="frame" x="163" y="8" width="104" height="28"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gKD-a4-BbR">
+                                            <rect key="frame" x="384" y="0.0" width="44" height="44"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="EPl-sP-9IS"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="p1q-Or-Dez"/>
+                                            </constraints>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" image="bookmark 1"/>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="gKD-a4-BbR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Br6-u6-ZBc" secondAttribute="trailing" constant="8" symbolic="YES" id="BbM-De-tXP"/>
+                                        <constraint firstItem="Br6-u6-ZBc" firstAttribute="centerY" secondItem="ehL-Wl-ztp" secondAttribute="centerY" id="BpY-et-bMh"/>
+                                        <constraint firstItem="gKD-a4-BbR" firstAttribute="centerY" secondItem="ehL-Wl-ztp" secondAttribute="centerY" id="Gy9-fP-RfK"/>
+                                        <constraint firstItem="Br6-u6-ZBc" firstAttribute="centerX" secondItem="ehL-Wl-ztp" secondAttribute="centerX" id="K3D-Xf-nkc"/>
+                                        <constraint firstAttribute="trailing" secondItem="gKD-a4-BbR" secondAttribute="trailing" constant="2" id="qRe-9l-tPe"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reddit cell" id="tz8-7d-Es0" customClass="RedditPost_TableCell" customModule="hm_2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="430" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="94" width="430" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tz8-7d-Es0" id="FaB-fi-bv3">
                                             <rect key="frame" x="0.0" y="0.0" width="430" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69j-bi-AXV" customClass="RedditPostView" customModule="hm_2" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="430" height="43.666666666666664"/>
+                                                    <rect key="frame" x="2" y="0.0" width="426" height="43.666666666666664"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="69j-bi-AXV" firstAttribute="leading" secondItem="FaB-fi-bv3" secondAttribute="leading" id="Aoh-Th-7L9"/>
-                                                <constraint firstAttribute="trailing" secondItem="69j-bi-AXV" secondAttribute="trailing" id="VZV-r8-B7X"/>
-                                                <constraint firstAttribute="bottom" secondItem="69j-bi-AXV" secondAttribute="bottom" id="m6r-qc-fm0"/>
-                                                <constraint firstItem="69j-bi-AXV" firstAttribute="top" secondItem="FaB-fi-bv3" secondAttribute="top" id="quN-eZ-70W"/>
+                                                <constraint firstItem="69j-bi-AXV" firstAttribute="top" secondItem="FaB-fi-bv3" secondAttribute="top" id="3NW-Dm-Ylw"/>
+                                                <constraint firstAttribute="bottom" secondItem="69j-bi-AXV" secondAttribute="bottom" id="DM8-LL-beO"/>
+                                                <constraint firstItem="69j-bi-AXV" firstAttribute="leading" secondItem="FaB-fi-bv3" secondAttribute="leading" constant="2" id="FKv-ea-JNt"/>
+                                                <constraint firstAttribute="trailing" secondItem="69j-bi-AXV" secondAttribute="trailing" constant="2" id="QJG-vY-QKA"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -55,8 +85,9 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eFK-sm-iR9" secondAttribute="trailing" id="cp5-Mu-1d1"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="5W9-66-noA"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="5W9-66-noA"/>
                     <connections>
+                        <outlet property="subRedditName" destination="Br6-u6-ZBc" id="uKr-26-Z6Y"/>
                         <outlet property="tableView" destination="eFK-sm-iR9" id="zli-kM-wVj"/>
                         <segue destination="qtO-CA-ZoV" kind="show" identifier="specific reddit post" id="wkj-zc-KoS"/>
                     </connections>
@@ -112,23 +143,12 @@
             </objects>
             <point key="canvasLocation" x="938" y="-3"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="Zie-sX-jDq">
-            <objects>
-                <viewController id="o3r-tT-4bC" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="wPK-rx-eae">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="nk7-z7-XJA"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SUW-6u-YG8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1782" y="-3"/>
-        </scene>
     </scenes>
     <resources>
+        <image name="bookmark 1" width="14" height="21"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

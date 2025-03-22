@@ -22,8 +22,14 @@ final class PostList_ViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView!
     
+    @IBOutlet weak var subRedditName: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        self.subRedditName.text = "/r/iOS"
         
         // Setting tableView to be resizable based on content
         self.tableView.rowHeight          = UITableView.automaticDimension
