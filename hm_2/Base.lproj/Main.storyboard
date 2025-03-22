@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dXw-q2-tTP">
     <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eFK-sm-iR9">
-                                <rect key="frame" x="0.0" y="59" width="430" height="839"/>
+                                <rect key="frame" x="0.0" y="103" width="430" height="795"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reddit cell" id="tz8-7d-Es0" customClass="RedditPost_TableCell" customModule="hm_2" customModuleProvider="target">
@@ -55,6 +55,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eFK-sm-iR9" secondAttribute="trailing" id="cp5-Mu-1d1"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="5W9-66-noA"/>
                     <connections>
                         <outlet property="tableView" destination="eFK-sm-iR9" id="zli-kM-wVj"/>
                         <segue destination="qtO-CA-ZoV" kind="show" identifier="specific reddit post" id="wkj-zc-KoS"/>
@@ -64,21 +65,52 @@
             </objects>
             <point key="canvasLocation" x="55.813953488372093" y="-3.218884120171674"/>
         </scene>
-        <!--View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="8Nz-md-mK1">
+            <objects>
+                <navigationController id="dXw-q2-tTP" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="OUA-LY-K0T">
+                        <rect key="frame" x="0.0" y="59" width="430" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="iKf-a3-rj4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xvC-oJ-dYx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-867" y="-3"/>
+        </scene>
+        <!--Selected Reddit Post View Controller-->
         <scene sceneID="rll-at-9XU">
             <objects>
-                <viewController id="qtO-CA-ZoV" sceneMemberID="viewController">
+                <viewController id="qtO-CA-ZoV" customClass="SelectedRedditPost_ViewController" customModule="hm_2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2jl-33-S4G">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="863"/>
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tb3-or-eMe" customClass="RedditPostView" customModule="hm_2" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="103" width="430" height="795"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="mxc-d6-IBZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="mxc-d6-IBZ" firstAttribute="bottom" secondItem="tb3-or-eMe" secondAttribute="bottom" id="0sV-It-pFq"/>
+                            <constraint firstItem="tb3-or-eMe" firstAttribute="leading" secondItem="mxc-d6-IBZ" secondAttribute="leading" id="83N-Wb-nhI"/>
+                            <constraint firstItem="mxc-d6-IBZ" firstAttribute="trailing" secondItem="tb3-or-eMe" secondAttribute="trailing" id="hjn-SQ-YYf"/>
+                            <constraint firstItem="tb3-or-eMe" firstAttribute="top" secondItem="mxc-d6-IBZ" secondAttribute="top" id="q5R-fK-SN8"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bKj-nP-clD"/>
+                    <connections>
+                        <outlet property="redditPostView" destination="tb3-or-eMe" id="OxX-61-BFh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vPh-SI-04r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1119" y="-3"/>
+            <point key="canvasLocation" x="938" y="-3"/>
         </scene>
     </scenes>
     <resources>

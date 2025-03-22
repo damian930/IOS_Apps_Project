@@ -20,6 +20,7 @@
 		2D9EA8832D7F3A5F00E64DA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D9EA8822D7F3A5F00E64DA2 /* Assets.xcassets */; };
 		2D9EA8862D7F3A5F00E64DA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D9EA8842D7F3A5F00E64DA2 /* LaunchScreen.storyboard */; };
 		2D9EA88E2D7F3ACB00E64DA2 /* NetworkDataRetriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9EA88D2D7F3ACB00E64DA2 /* NetworkDataRetriver.swift */; };
+		2DE9796B2D8EFBDB004F8D73 /* SelectedRedditPost_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE9796A2D8EFBDB004F8D73 /* SelectedRedditPost_ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		2D9EA8852D7F3A5F00E64DA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D9EA8872D7F3A6000E64DA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D9EA88D2D7F3ACB00E64DA2 /* NetworkDataRetriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataRetriver.swift; sourceTree = "<group>"; };
+		2DE9796A2D8EFBDB004F8D73 /* SelectedRedditPost_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedRedditPost_ViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				2D9EA87F2D7F3A5B00E64DA2 /* Main.storyboard */,
 				2D402EBD2D8959AD00B9FFC7 /* RedditPostView.swift */,
 				2D402EBB2D89593100B9FFC7 /* RedditPostView.xib */,
+				2DE9796A2D8EFBDB004F8D73 /* SelectedRedditPost_ViewController.swift */,
 				2D402EB92D89582100B9FFC7 /* AdditionalFunctions.swift */,
 				2D9558FB2D80294E0068AAD4 /* RedditPosts.swift */,
 				2D9EA88D2D7F3ACB00E64DA2 /* NetworkDataRetriver.swift */,
@@ -171,6 +174,7 @@
 				2D9EA87A2D7F3A5B00E64DA2 /* AppDelegate.swift in Sources */,
 				2D9EA87C2D7F3A5B00E64DA2 /* SceneDelegate.swift in Sources */,
 				2D9558FC2D80294E0068AAD4 /* RedditPosts.swift in Sources */,
+				2DE9796B2D8EFBDB004F8D73 /* SelectedRedditPost_ViewController.swift in Sources */,
 				2D36E6952D8D51E0002122DE /* RedditPost_TableCell.swift in Sources */,
 				2D9EA88E2D7F3ACB00E64DA2 /* NetworkDataRetriver.swift in Sources */,
 			);

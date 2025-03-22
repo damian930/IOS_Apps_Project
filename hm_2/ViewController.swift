@@ -114,6 +114,21 @@ extension ViewController: UITableViewDataSource {
             removeNewData()
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case self.GO_TO_SPECIFIC_POST:
+            let nextVC = segue.destination as! SelectedRedditPost_ViewController
+            guard let lastSeletedPost = self.lastSeletedPost else {
+                assert(false)
+            }
+            DispatchQueue.main.async {
+                nextVC.configureSync(redditPost: lastSeletedPost)
+            }
+        default: break
+        }
+    }
+    
 }
 
 
@@ -121,6 +136,7 @@ extension ViewController: UITableViewDataSource {
 extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         self.lastSeletedPost = self.redditPosts[indexPath.row]
         self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
     }
