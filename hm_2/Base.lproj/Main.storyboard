@@ -56,12 +56,29 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="postsTable" destination="eFK-sm-iR9" id="zli-kM-wVj"/>
+                        <outlet property="tableView" destination="eFK-sm-iR9" id="zli-kM-wVj"/>
+                        <segue destination="qtO-CA-ZoV" kind="show" identifier="specific reddit post" id="wkj-zc-KoS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="55.813953488372093" y="-3.218884120171674"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="rll-at-9XU">
+            <objects>
+                <viewController id="qtO-CA-ZoV" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2jl-33-S4G">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="863"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="mxc-d6-IBZ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="bKj-nP-clD"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vPh-SI-04r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1119" y="-3"/>
         </scene>
     </scenes>
     <resources>

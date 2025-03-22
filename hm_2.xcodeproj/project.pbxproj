@@ -13,7 +13,6 @@
 		2D402EBE2D8959AD00B9FFC7 /* RedditPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D402EBD2D8959AD00B9FFC7 /* RedditPostView.swift */; };
 		2D5365F52D80767A0095F055 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2D5365F42D80767A0095F055 /* SDWebImage */; };
 		2D9558FC2D80294E0068AAD4 /* RedditPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9558FB2D80294E0068AAD4 /* RedditPosts.swift */; };
-		2D9B9C6E2D8D768D005D9220 /* RedditAPICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9B9C6D2D8D768D005D9220 /* RedditAPICaller.swift */; };
 		2D9EA87A2D7F3A5B00E64DA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9EA8792D7F3A5B00E64DA2 /* AppDelegate.swift */; };
 		2D9EA87C2D7F3A5B00E64DA2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9EA87B2D7F3A5B00E64DA2 /* SceneDelegate.swift */; };
 		2D9EA87E2D7F3A5B00E64DA2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9EA87D2D7F3A5B00E64DA2 /* ViewController.swift */; };
@@ -29,7 +28,6 @@
 		2D402EBB2D89593100B9FFC7 /* RedditPostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RedditPostView.xib; sourceTree = "<group>"; };
 		2D402EBD2D8959AD00B9FFC7 /* RedditPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditPostView.swift; sourceTree = "<group>"; };
 		2D9558FB2D80294E0068AAD4 /* RedditPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditPosts.swift; sourceTree = "<group>"; };
-		2D9B9C6D2D8D768D005D9220 /* RedditAPICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditAPICaller.swift; sourceTree = SOURCE_ROOT; };
 		2D9EA8762D7F3A5B00E64DA2 /* hm_2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hm_2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D9EA8792D7F3A5B00E64DA2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D9EA87B2D7F3A5B00E64DA2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,7 +83,6 @@
 				2D9EA8842D7F3A5F00E64DA2 /* LaunchScreen.storyboard */,
 				2D9EA8822D7F3A5F00E64DA2 /* Assets.xcassets */,
 				2D9EA8872D7F3A6000E64DA2 /* Info.plist */,
-				2D9B9C6D2D8D768D005D9220 /* RedditAPICaller.swift */,
 			);
 			path = hm_2;
 			sourceTree = "<group>";
@@ -171,7 +168,6 @@
 				2D402EBE2D8959AD00B9FFC7 /* RedditPostView.swift in Sources */,
 				2D402EBA2D89582100B9FFC7 /* AdditionalFunctions.swift in Sources */,
 				2D9EA87E2D7F3A5B00E64DA2 /* ViewController.swift in Sources */,
-				2D9B9C6E2D8D768D005D9220 /* RedditAPICaller.swift in Sources */,
 				2D9EA87A2D7F3A5B00E64DA2 /* AppDelegate.swift in Sources */,
 				2D9EA87C2D7F3A5B00E64DA2 /* SceneDelegate.swift in Sources */,
 				2D9558FC2D80294E0068AAD4 /* RedditPosts.swift in Sources */,

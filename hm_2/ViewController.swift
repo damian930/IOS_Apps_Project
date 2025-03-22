@@ -14,27 +14,66 @@ class ViewController: UIViewController {
     
     private let CELL_ID = "reddit cell"
     
-    @IBOutlet private weak var postsTable: UITableView!
+    private let GO_TO_SPECIFIC_POST = "specific reddit post"
+    
+    private var isFetchingOrRemovingData = false
+    
+    private var lastSeletedPost: RedditPost?
+    
+    @IBOutlet private weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.postsTable.rowHeight          = UITableView.automaticDimension
-        self.postsTable.estimatedRowHeight = 400
+        // Setting tableView to be resizable based on content
+        self.tableView.rowHeight          = UITableView.automaticDimension
+        self.tableView.estimatedRowHeight = 400
         
-        //        Run time error
-        //        self.postsTable.register(RedditPost_TableCell.self, forCellReuseIdentifier: self.CELL_ID)
+        // Self is responsible for data and behavior (Fat View Controller)
+        self.tableView.dataSource = self
+        self.tableView.delegate   = self
         
-        self.postsTable.dataSource = self
-        self.postsTable.delegate   = self
-        
+        // Feting the original data
         Task {
-            
-            self.redditPosts = await getRedditPosts(limit: 3)
-            
-            self.postsTable.reloadData()
-            
+            self.redditPosts = await getRedditPosts(limit: 10)
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.tableView.reloadData()
+            }
+        }
+        
+    }
     
+    // Loading new data and store at the end
+    private func getNewData() async {
+        if self.isFetchingOrRemovingData { return }
+        self.isFetchingOrRemovingData = true
+        
+        let lastPost = self.redditPosts[self.redditPosts.count - 1]
+        let newData  = await getRedditPosts(limit: 10, after: lastPost.id)
+        self.redditPosts.append(contentsOf: newData)
+        
+        DispatchQueue.main.async {
+            [weak self] in
+            self?.tableView.reloadData()
+            self?.isFetchingOrRemovingData = false
+            
+            print("Number of loaded posts: \(String(describing: self?.redditPosts.count))")
+        }
+    }
+    
+    func removeNewData() {
+        if self.isFetchingOrRemovingData { return }
+        self.isFetchingOrRemovingData = true
+        
+        self.redditPosts.removeLast(5)
+            
+        DispatchQueue.main.async {
+            [weak self] in
+            self?.tableView.reloadData()
+            self?.isFetchingOrRemovingData = false
+            
+            print("Number of loaded posts: \(String(describing: self?.redditPosts.count))")
         }
         
     }
@@ -43,26 +82,55 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITableViewDataSource {
+    // How many rows will be in the table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.redditPosts.count
     }
     
+    // Cell creation
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! RedditPost_TableCell
         
-        let redditPost = self.redditPosts[indexPath.item]
+        let redditPost = self.redditPosts[indexPath.row]
         cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost)
         
         return cell
         
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        // When to load more posts
+        if indexPath.row == self.redditPosts.count - 3 {
+            Task {
+                // Getting and loading new data on main thread
+                await getNewData()
+            }
+        }
+        
+        // When to remove new posts on main thread
+        if indexPath.row >= 10 && self.redditPosts.count > indexPath.row + 10 {
+            removeNewData()
+        }
+    }
 }
+
+
 
 extension ViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.lastSeletedPost = self.redditPosts[indexPath.row]
+        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
+    }
 }
+
+
+
+
+
+
 
 
 

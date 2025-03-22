@@ -19,6 +19,7 @@ struct RawRedditResponce: Codable {
     }
     
     struct UserPost: Codable {
+        let name: String
         let author_fullname: String
         let domain: String
         let title: String;
@@ -45,6 +46,7 @@ struct RawRedditResponce: Codable {
 // =========================================================
 
 struct RedditPost {
+    let id: String
     let author_fullname: String
     let domain: String
     let title: String;
@@ -67,6 +69,7 @@ func getRedditUserPostsData(from data: Data) -> Result<[RedditPost], Error> {
         let rawRedditResponce = try JSONDecoder().decode(RawRedditResponce.self, from: data)
         
         for userPost in rawRedditResponce.data.children {
+            let id = userPost.data.name
             let author_fullname = userPost.data.author_fullname
             let num_comments    = userPost.data.num_comments
             let domain = userPost.data.domain
@@ -76,7 +79,7 @@ func getRedditUserPostsData(from data: Data) -> Result<[RedditPost], Error> {
             let images_valid   = images_invalid?.map {$0.replacingOccurrences(of: "&amp;", with: "&")}
             let time = Date().timeIntervalSince(Date(timeIntervalSince1970: TimeInterval(userPost.data.created)))
             
-            let responce = RedditPost(author_fullname: author_fullname, domain: domain, title: title, num_comments: num_comments, rating: rating, images: images_valid ?? [], time: time, saved: Bool.random())
+            let responce = RedditPost(id: id, author_fullname: author_fullname, domain: domain, title: title, num_comments: num_comments, rating: rating, images: images_valid ?? [], time: time, saved: Bool.random())
             
             responces.append(responce)
         }
@@ -89,9 +92,9 @@ func getRedditUserPostsData(from data: Data) -> Result<[RedditPost], Error> {
 
 
 
-func getRedditPosts(limit: Int, after: Int = 0) async -> [RedditPost] {
+func getRedditPosts(limit: Int, after: String = "") async -> [RedditPost] {
     let url        = "https://www.reddit.com/r/ios/top.json"
-    let parameters = ["limit": "\(limit)", "after": "\(after)"]
+    let parameters = ["limit": "\(limit)", "after": after]
     
     let result = await betterWayToRetrieve(url: url, parameters: parameters)
     
