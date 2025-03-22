@@ -79,7 +79,7 @@ func getRedditUserPostsData(from data: Data) -> Result<[RedditPost], Error> {
             let images_valid   = images_invalid?.map {$0.replacingOccurrences(of: "&amp;", with: "&")}
             let time = Date().timeIntervalSince(Date(timeIntervalSince1970: TimeInterval(userPost.data.created)))
             
-            let responce = RedditPost(id: id, author_fullname: author_fullname, domain: domain, title: title, num_comments: num_comments, rating: rating, images: images_valid ?? [], time: time, saved: Bool.random())
+            let responce = RedditPost(id: id, author_fullname: author_fullname, domain: domain, title: title, num_comments: num_comments, rating: rating, images: images_valid ?? [], time: time, saved: false)
             
             responces.append(responce)
         }

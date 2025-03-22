@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RedditPost_TableCell: UITableViewCell {
+final class RedditPost_TableCell: UITableViewCell {
 
     @IBOutlet weak var redditPostView: RedditPostView!
     

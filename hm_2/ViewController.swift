@@ -8,7 +8,7 @@
 import UIKit
 import SDWebImage
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
     private var redditPosts = [RedditPost]()
     
@@ -45,12 +45,12 @@ class ViewController: UIViewController {
     }
     
     // Loading new data and store at the end
-    private func getNewData() async {
+    private func getNewData(n: Int) async {
         if self.isFetchingOrRemovingData { return }
         self.isFetchingOrRemovingData = true
         
         let lastPost = self.redditPosts[self.redditPosts.count - 1]
-        let newData  = await getRedditPosts(limit: 10, after: lastPost.id)
+        let newData  = await getRedditPosts(limit: n, after: lastPost.id)
         self.redditPosts.append(contentsOf: newData)
         
         DispatchQueue.main.async {
@@ -62,12 +62,12 @@ class ViewController: UIViewController {
         }
     }
     
-    func removeNewData() {
+    func removeNewData(n: Int) {
         if self.isFetchingOrRemovingData { return }
         self.isFetchingOrRemovingData = true
         
-        self.redditPosts.removeLast(5)
-            
+        self.redditPosts.removeLast(n)
+        
         DispatchQueue.main.async {
             [weak self] in
             self?.tableView.reloadData()
@@ -77,7 +77,7 @@ class ViewController: UIViewController {
         }
         
     }
-
+    
     
 }
 
@@ -93,6 +93,7 @@ extension ViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! RedditPost_TableCell
         
         let redditPost = self.redditPosts[indexPath.row]
+        
         cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost)
         
         return cell
@@ -102,16 +103,17 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         // When to load more posts
-        if indexPath.row == self.redditPosts.count - 3 {
+        if indexPath.row == self.redditPosts.count - 1 - 5 {
             Task {
                 // Getting and loading new data on main thread
-                await getNewData()
+                await getNewData(n: 5)
             }
         }
         
         // When to remove new posts on main thread
-        if indexPath.row >= 10 && self.redditPosts.count > indexPath.row + 10 {
-            removeNewData()
+        let overhead = self.redditPosts.count - 1 - indexPath.row
+        if overhead > 15 {
+            removeNewData(n: 5)
         }
     }
     
@@ -156,29 +158,6 @@ extension ViewController: UITableViewDelegate {
 
 
 
-// @ TODO: add the button back into the reddit view
-
-//    @IBAction func savedButtonPressed(_ sender: UIButton) {
-//        // Unwrapping optional post and saving state for logging
-//        guard var post = currentPost else { return }
-//        let prevState  = post.saved
-//
-//        // Updating the button image
-//        post.saved.toggle()
-//        self.currentPost = post
-//        updateBookmarkButton(isSaved: post.saved)
-//
-////        print("Bookmark cahnged from \(prevState) to \(self.currentPost?.saved as Any)")
-//    }
-//
-//    private func updateBookmarkButton(isSaved: Bool) {
-//        // Changing the button image
-//        if isSaved {
-//            self.redditPostSaveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-//        } else {
-//            self.redditPostSaveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
-//        }
-//    }
 
 
 

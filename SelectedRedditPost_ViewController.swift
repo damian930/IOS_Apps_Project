@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelectedRedditPost_ViewController: UIViewController {
+final class SelectedRedditPost_ViewController: UIViewController {
 
     @IBOutlet private weak var redditPostView: RedditPostView!
     
