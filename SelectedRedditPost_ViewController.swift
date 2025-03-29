@@ -17,8 +17,8 @@ final class SelectedRedditPost_ViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    func configureSync(redditPost: RedditPost) {
-        self.redditPostView.update_synchronously(newRedditPost: redditPost, vc: nil)
+    func configureSync(redditPost: RedditPost, vc: PostList_ViewController) {
+        self.redditPostView.update_synchronously(newRedditPost: redditPost, vc: vc)
     }
 
 }

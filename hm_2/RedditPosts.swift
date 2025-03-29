@@ -45,7 +45,19 @@ struct RawRedditResponce: Codable {
 
 // =========================================================
 
-struct RedditPost: Codable {
+final class RedditPost: Codable, Equatable {
+    static func == (lhs: RedditPost, rhs: RedditPost) -> Bool {
+        return lhs.id == rhs.id &&
+                       lhs.domain == rhs.domain &&
+                       lhs.title == rhs.title &&
+                       lhs.rating == rhs.rating &&
+                       lhs.images == rhs.images &&
+                       lhs.time == rhs.time &&
+                       lhs.isSaved == rhs.isSaved &&
+                       lhs.author_fullname == rhs.author_fullname &&
+                       lhs.num_comments == rhs.num_comments
+    }
+    
     let id     : String
     let domain : String
     let title  : String;
@@ -55,6 +67,18 @@ struct RedditPost: Codable {
     var isSaved: Bool
     let author_fullname: String
     let num_comments   : Int
+    
+    init(id: String, domain: String, title: String, rating: Int, images: [String], time: Double, isSaved: Bool, author_fullname: String, num_comments: Int) {
+        self.id      = id
+        self.domain  = domain
+        self.title   = title
+        self.rating  = rating
+        self.images  = images
+        self.time    = time
+        self.isSaved = isSaved
+        self.author_fullname = author_fullname
+        self.num_comments    = num_comments
+    }
 }
 
 // =========================================================

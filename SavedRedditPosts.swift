@@ -7,11 +7,19 @@
 
 import Foundation
 
+//fileprivate final class arrayWrapper {
+//    var arr: [RedditPost]
+//    
+//    init() {
+//        self.arr = []
+//    }
+//}
+
 final class SavedRedditPosts {
     // TODO: make it accecible but not settable
-    static var saved  = [RedditPost]()
     
-//    static var loaded = [RedditPost]()
+    static var saved  = [RedditPost]()
+    static var loaded = [RedditPost]()
     
     static private let savedFolderName = "saved-reddit-posts"
     
@@ -33,6 +41,23 @@ final class SavedRedditPosts {
         
     }
     
+    // unsafe
+//    static func dangerous_save(_ post: RedditPost) {
+//        for (index, _) in saved.enumerated() {
+//            if saved[index].id == post.id && !saved[index].isSaved {
+//                saved[index].isSaved = true
+//            }
+//        }
+//    }
+//    
+    static func dangerous_unsave(_ post: RedditPost) {
+        for (index, _) in saved.enumerated() {
+            if saved[index].id == post.id {
+                saved[index].isSaved = false
+            }
+        }
+    }
+    
     //TODO: move it somewhere better
     static func createSavedFolder() {
         let fm = FileManager.default
@@ -43,16 +68,7 @@ final class SavedRedditPosts {
                 path.append(path: savedFolderName)
                 fm.createFile(atPath: path.path(), contents: nil)
             }
-//            else {
-//                var path = URL.documentsDirectory
-//                path.append(path: savedFolderName)
-//                do {
-//                    let str = try String(contentsOf: path)
-//                }
-//                catch {
-//                    print(error)
-//                }
-//            }
+
         }
         catch {
             assert(false, "Some wrong with saved posts file creation, error: \(error)")

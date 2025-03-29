@@ -12,7 +12,7 @@ final class RedditPostView: UIView {
     private let CONTENT_XIB_NAME = "RedditPostView"
     
     // TODO: see if there is a better way to have it in here, cause having the whole ass post in the ui class doesnt seem good to me
-    var redditPost: RedditPost?
+    private weak var redditPost: RedditPost?
     
     private weak var parentVC: PostList_ViewController?
         
@@ -42,12 +42,12 @@ final class RedditPostView: UIView {
     // Constraint from top of ("rating...") to the bottom of the title
     @IBOutlet private weak var rating_comments_share_TitleConstaint: NSLayoutConstraint!
     
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        print(frame)
-//
-//        commonInit()
-//    }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        print(frame)
+
+        commonInit()
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -126,7 +126,7 @@ final class RedditPostView: UIView {
                 [weak self] in
                 self?.image.isHidden = true
                 self?.rating_comments_share_ImageConstraint.isActive = false
-                self?.rating_comments_share_TitleConstaint.isActive = true
+                self?.rating_comments_share_TitleConstaint.isActive  = true
             }
         }
         else {
@@ -148,42 +148,55 @@ final class RedditPostView: UIView {
     }
     
     private func updateBookmarkButton() {
-        guard var post = self.redditPost else {
+        guard let post = self.redditPost else {
             assert(false, "Empty reddit post when trying to save a post")
         }
         
         if !post.isSaved {
-            post.isSaved = true
-            self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-            SavedRedditPosts.save(post)
+            if self.parentVC?.mode == .normal {
+                // TODO: add main.async
+                post.isSaved = true
+                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+                SavedRedditPosts.save(post)
+                
+                print("Saved a post -> ID: \(post.id), title: \(post.title)")
+            }
+            else if self.parentVC?.mode == .savedPosts {
+                assert(SavedRedditPosts.saved.contains(post))
+                // ===================================
+                // NOTE: unsafe
+                post.isSaved = true
+                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+                
+                // ===================================
+                return
+            }
             
-            print("Saved a post -> ID: \(post.id), title: \(post.title)")
         } else {
-            post.isSaved = false
-            self.saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
-            SavedRedditPosts.unsave(post)
+            if self.parentVC?.mode == .normal {
+                // TODO: add main.async
+                post.isSaved = false
+                self.saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+                SavedRedditPosts.unsave(post)
+                
+                print("Unsaved a post -> ID: \(post.id), title: \(post.title)")
+            }
+            else if self.parentVC?.mode == .savedPosts {
+                
+                // ===================================
+                // NOTE: unsafe
+                post.isSaved = false
+                self.saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+                
+                // ===================================
+            }
             
-            print("Unsaved a post -> ID: \(post.id), title: \(post.title)")
         }
         
-        self.redditPost = post
+//        self.parentVC?.needToRefresh_OnAppear = true
         
-        
-        
-//        print(String(describing: self.redditPost?.title))
-//        print(String(describing: self.redditPost?.isSaved))
-//        print("")
-        
-        // Store it into the documents floder
-        // Plan:
-        // 0. Create a global list of alredy saved posts
-        // 1. Have post to save
-        // 2. Make a json out of that post
-        // 3. Add post to saved posts
-        // 4. When app life cycle ends, create a new json from global saved
-        // 5. Write global saved into a file
-        
-        // 6. When opening up the app, load the saved posts from json into a global var.
+        assert(post == self.redditPost!)
+        assert(post === self.redditPost!)
 
     }
     
