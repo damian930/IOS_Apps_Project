@@ -18,7 +18,7 @@
                 <outlet property="rating_comments_share_ImageConstraint" destination="he1-mM-PO0" id="sjU-Av-H0n"/>
                 <outlet property="rating_comments_share_TitleConstaint" destination="sQg-VM-End" id="BVa-Uv-VID"/>
                 <outlet property="saveButton" destination="yNj-sQ-T6p" id="lZB-lJ-Pk3"/>
-                <outlet property="shareLabel" destination="Jmz-Uf-IEr" id="97t-JK-JWR"/>
+                <outlet property="shareButton" destination="MiT-ax-XFd" id="LGy-rS-JNt"/>
                 <outlet property="time" destination="gjL-hx-lkZ" id="3w3-bt-fTK"/>
                 <outlet property="title" destination="ouV-yj-sio" id="bIH-p3-icv"/>
                 <outlet property="username" destination="6UF-cA-6OE" id="LF6-hA-nyH"/>
@@ -89,11 +89,11 @@
                         <constraint firstAttribute="height" constant="350" id="YIm-BV-VM5"/>
                     </constraints>
                 </imageView>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1Gh-ph-6CH" userLabel="ratings_comments....">
-                    <rect key="frame" x="10" y="585" width="410" height="23"/>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1Gh-ph-6CH" userLabel="ratings_comments....">
+                    <rect key="frame" x="10" y="585" width="410" height="44"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="6EH-Eo-gyb">
-                            <rect key="frame" x="0.0" y="1" width="86.666666666666671" height="21"/>
+                            <rect key="frame" x="0.0" y="11.666666666666629" width="86.666666666666671" height="21"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" image="arrowshape.up.fill" translatesAutoresizingMaskIntoConstraints="NO" id="dPB-sV-gxa">
                                     <rect key="frame" x="8" y="0.0" width="18" height="21"/>
@@ -108,7 +108,7 @@
                             <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="0.0" right="8"/>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="lUp-dU-at3">
-                            <rect key="frame" x="134.33333333333334" y="0.66666666666662877" width="146.00000000000003" height="22"/>
+                            <rect key="frame" x="142.66666666666666" y="11" width="145.99999999999997" height="22"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble.right.fill" translatesAutoresizingMaskIntoConstraints="NO" id="D7r-hc-f4G">
                                     <rect key="frame" x="8" y="0.0" width="22" height="22"/>
@@ -122,21 +122,18 @@
                             </subviews>
                             <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="0.0" right="8"/>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="32q-1o-TyU">
-                            <rect key="frame" x="328" y="0.0" width="82" height="23"/>
-                            <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.and.arrow.up.fill" translatesAutoresizingMaskIntoConstraints="NO" id="7sO-TY-2Ew">
-                                    <rect key="frame" x="8" y="0.0" width="18" height="23"/>
-                                </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Share" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jmz-Uf-IEr">
-                                    <rect key="frame" x="30" y="0.0" width="44" height="23"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="0.0" right="8"/>
-                        </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiT-ax-XFd">
+                            <rect key="frame" x="366" y="0.0" width="44" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="44" id="DVA-Yq-jWe"/>
+                                <constraint firstAttribute="height" constant="44" id="pe5-Qe-h2M"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="square.and.arrow.up.fill"/>
+                            <connections>
+                                <action selector="shareButtonPressed:" destination="-1" eventType="touchUpInside" id="2ye-VV-KcR"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <viewLayoutGuide key="safeArea" id="2Fw-Is-bdu"/>
                 </stackView>

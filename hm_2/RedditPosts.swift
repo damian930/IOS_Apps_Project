@@ -45,16 +45,16 @@ struct RawRedditResponce: Codable {
 
 // =========================================================
 
-struct RedditPost {
-    let id: String
+struct RedditPost: Codable {
+    let id     : String
+    let domain : String
+    let title  : String;
+    let rating : Int
+    let images : [String]
+    let time   : Double
+    var isSaved: Bool
     let author_fullname: String
-    let domain: String
-    let title: String;
-    let num_comments: Int
-    let rating: Int
-    let images: [String]
-    let time: Double
-    var saved: Bool
+    let num_comments   : Int
 }
 
 // =========================================================
@@ -79,7 +79,7 @@ func getRedditUserPostsData(from data: Data) -> Result<[RedditPost], Error> {
             let images_valid   = images_invalid?.map {$0.replacingOccurrences(of: "&amp;", with: "&")}
             let time = Date().timeIntervalSince(Date(timeIntervalSince1970: TimeInterval(userPost.data.created)))
             
-            let responce = RedditPost(id: id, author_fullname: author_fullname, domain: domain, title: title, num_comments: num_comments, rating: rating, images: images_valid ?? [], time: time, saved: false)
+            let responce = RedditPost(id: id, domain: domain, title: title, rating: rating, images: images_valid ?? [], time: time, isSaved: false, author_fullname: author_fullname, num_comments: num_comments)
             
             responces.append(responce)
         }

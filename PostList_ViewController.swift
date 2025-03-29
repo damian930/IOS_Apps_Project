@@ -42,6 +42,13 @@ final class PostList_ViewController: UIViewController {
         // Feting the original data
         Task {
             self.redditPosts = await getRedditPosts(limit: 10)
+            
+            for (index, post) in self.redditPosts.enumerated() {
+                if SavedRedditPosts.saved.contains(where: { $0.id == post.id }) {
+                    self.redditPosts[index].isSaved = true
+                }
+            }
+            
             DispatchQueue.main.async {
                 [weak self] in
                 self?.tableView.reloadData()
@@ -84,6 +91,25 @@ final class PostList_ViewController: UIViewController {
         
     }
     
+    // TODO: Place it somewhere else
+    private var postForSharing: RedditPost?
+    
+    func sharePost(_ post: RedditPost) {
+        self.postForSharing = post
+        openAcivityVC()
+    }
+    
+    @objc func openAcivityVC() {
+        guard let post = self.postForSharing else {
+            assert(false, "Trying to share a nil valued post")
+        }
+        
+        // TODO: Insted of the title share url
+        let items = [post.title]
+        let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        present(ac, animated: true)
+    }
+    
     
 }
 
@@ -100,7 +126,7 @@ extension PostList_ViewController: UITableViewDataSource {
         
         let redditPost = self.redditPosts[indexPath.row]
         
-        cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost)
+        cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost, vc: self)
         
         return cell
         

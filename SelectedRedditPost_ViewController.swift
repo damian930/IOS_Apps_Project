@@ -18,7 +18,7 @@ final class SelectedRedditPost_ViewController: UIViewController {
     }
     
     func configureSync(redditPost: RedditPost) {
-        self.redditPostView.update_synchronously(newRedditPost: redditPost)
+        self.redditPostView.update_synchronously(newRedditPost: redditPost, vc: nil)
     }
 
 }

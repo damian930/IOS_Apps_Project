@@ -12,9 +12,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch
+        
+        SavedRedditPosts.createSavedFolder()
+        
+        SavedRedditPosts.readFromFile()
+        
+        print("Saved posts when app started(count = \(SavedRedditPosts.saved.count): \(SavedRedditPosts.saved)")
+        
         return true
     }
-
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        SavedRedditPosts.writeToFile()
+        
+        print("Saved posts when the app terminated(count = \(SavedRedditPosts.saved.count): \(SavedRedditPosts.saved)")
+    }
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
