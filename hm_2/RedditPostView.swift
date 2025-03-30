@@ -9,9 +9,8 @@ import UIKit
 
 final class RedditPostView: UIView {
     
-    private let CONTENT_XIB_NAME = "RedditPostView"
+    static private let CONTENT_XIB_NAME = "RedditPostView"
     
-    // TODO: see if there is a better way to have it in here, cause having the whole ass post in the ui class doesnt seem good to me
     private weak var redditPost: RedditPost?
     
     private weak var parentVC: RedditPost_Shaerable?
@@ -36,10 +35,10 @@ final class RedditPostView: UIView {
     
     @IBOutlet private weak var shareButton: UIButton!
     
-    // Constraint from top of ("rating...") to the bottom of the image
+    // Constraint from the top of ("rating...") to the bottom of the image
     @IBOutlet private weak var rating_comments_share_ImageConstraint: NSLayoutConstraint!
     
-    // Constraint from top of ("rating...") to the bottom of the title
+    // Constraint from the top of ("rating...") to the bottom of the title
     @IBOutlet private weak var rating_comments_share_TitleConstaint: NSLayoutConstraint!
     
     enum RedditPostState {
@@ -63,11 +62,12 @@ final class RedditPostView: UIView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed(self.CONTENT_XIB_NAME, owner: self, options: nil)
+        Bundle.main.loadNibNamed(RedditPostView.CONTENT_XIB_NAME, owner: self, options: nil)
         
         self.contentView.fixInView(self)
         
-        shareButton.addTarget(nil, action: #selector(PostList_ViewController.openAcivityVC), for: .touchUpInside)
+        // TODO: remove if unused
+        //        shareButton.addTarget(nil, action: #selector(PostList_ViewController.openAcivityVC), for: .touchUpInside)
     }
     
     func update_synchronously(newRedditPost: RedditPost, vc: RedditPost_Shaerable?, state: RedditPostState) {
@@ -99,6 +99,10 @@ final class RedditPostView: UIView {
     }
     
     func update_in_paralel_on_main(newRedditPost: RedditPost, vc: RedditPost_Shaerable?, state: RedditPostState) {
+        
+        print("\nDebug")
+        print("\(newRedditPost.title)")
+        
         self.redditPost = newRedditPost
         self.parentVC   = vc
         self.state      = state
@@ -131,6 +135,7 @@ final class RedditPostView: UIView {
     
     private func handleImages(_ images: [String]) {
         if images.isEmpty {
+            print("nil\n")
             DispatchQueue.main.async {
                 [weak self] in
                 self?.image.isHidden = true
@@ -139,10 +144,21 @@ final class RedditPostView: UIView {
             }
         }
         else {
+            print("\(images)\n")
+            
             let imageURL = images[0]
             DispatchQueue.main.async {
                 [weak self] in
-                self?.image.sd_setImage(with: URL(string: imageURL))
+                self?.image.sd_setImage(with: URL(string: imageURL)) {
+                    image, error, cacheType, url in
+                    if let error = error {
+                        print("Error loading image: \(error.localizedDescription)")
+                    } else {
+                        print("Image loaded successfully from: \(url?.absoluteString ?? "Unknown URL")")
+//                        self?.rating_comments_share_ImageConstraint.isActive = true
+//                        self?.rating_comments_share_TitleConstaint.isActive  = false
+                    }
+                }
             }
         }
     }
@@ -161,29 +177,10 @@ final class RedditPostView: UIView {
             assert(false, "Empty reddit post when trying to save a post")
         }
         
-        if !post.isSaved {
-            // TODO: add main.async
-            if self.state == .insdeTheDefaultPostsList {
-                post.isSaved = true
-                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-                SavedRedditPosts.save(post)
-                
-                print("Saved a post -> ID: \(post.id), title: \(post.title)")
-            }
-            else if state == .insideTheListOfSaved {
-                assert(SavedRedditPosts.saved.contains(post))
-                // ===================================
-                // NOTE: unsafe
-                post.isSaved = true
-                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-                
-                // ===================================
-            }
-            else {
-                assert(false, "Unknown reddit post state")
-            }
-        }
-        else {
+        print("\nPost.isSaved: \(post.isSaved)")
+        print("State:        \(self.state)\n")
+        
+        if post.isSaved {
             if self.state == .insdeTheDefaultPostsList {
                 post.isSaved = false
                 self.saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
@@ -199,7 +196,25 @@ final class RedditPostView: UIView {
                 assert(false, "Unknown reddit post state")
             }
         }
-    
+        else {
+            if self.state == .insdeTheDefaultPostsList {
+                post.isSaved = true
+                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+                SavedRedditPosts.save(post)
+                
+                print("Saved a post -> ID: \(post.id), title: \(post.title)")
+            }
+            else if state == .insideTheListOfSaved {
+                assert(SavedRedditPosts.saved.contains(post))
+                // NOTE: unsafe
+                post.isSaved = true
+                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            }
+            else {
+                assert(false, "Unknown reddit post state")
+            }
+        }
+        
         assert(post == self.redditPost!)
         assert(post === self.redditPost!)
         

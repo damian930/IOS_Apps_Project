@@ -7,21 +7,11 @@
 
 import Foundation
 
-//fileprivate final class arrayWrapper {
-//    var arr: [RedditPost]
-//    
-//    init() {
-//        self.arr = []
-//    }
-//}
-
 final class SavedRedditPosts {
-    // TODO: make it accecible but not settable
+    static private let savedFolderName = "saved-reddit-posts"
     
     static var saved  = [RedditPost]()
     static var loaded = [RedditPost]()
-    
-    static private let savedFolderName = "saved-reddit-posts"
     
     private init() {}
     
@@ -41,25 +31,17 @@ final class SavedRedditPosts {
         
     }
     
-    // unsafe
-//    static func dangerous_save(_ post: RedditPost) {
-//        for (index, _) in saved.enumerated() {
-//            if saved[index].id == post.id && !saved[index].isSaved {
-//                saved[index].isSaved = true
-//            }
-//        }
-//    }
-//    
-//    static func dangerous_unsave(_ post: RedditPost) {
-//        for (index, _) in saved.enumerated() {
-//            if saved[index].id == post.id {
-//                saved[index].isSaved = false
-//            }
-//        }
-//    }
+    static func start() {
+        createSavedFolder()
+        readFromFile()
+    }
+    
+    static func end() {
+        writeToFile()
+    }
     
     //TODO: move it somewhere better
-    static func createSavedFolder() {
+    static private func createSavedFolder()  {
         let fm = FileManager.default
         do {
             let docFiles = try fm.contentsOfDirectory(atPath: URL.documentsDirectory.path())
@@ -68,14 +50,14 @@ final class SavedRedditPosts {
                 path.append(path: savedFolderName)
                 fm.createFile(atPath: path.path(), contents: nil)
             }
-
+            
         }
         catch {
             assert(false, "Some wrong with saved posts file creation, error: \(error)")
         }
     }
     
-    static func writeToFile() {
+    static private func writeToFile() {
         var jsonData: Data? = nil
         do {
             jsonData = try JSONEncoder().encode(saved)
@@ -98,7 +80,7 @@ final class SavedRedditPosts {
         
     }
     
-    static func readFromFile() {
+    static private func readFromFile() {
         var path = URL.documentsDirectory
         path.append(path: savedFolderName)
         
@@ -109,7 +91,7 @@ final class SavedRedditPosts {
         catch {
             assert(false, "Error reading from file, error: \(error)")
         }
-
+        
         do {
             saved = try JSONDecoder().decode([RedditPost].self, from: contents!)
         }
@@ -120,5 +102,3 @@ final class SavedRedditPosts {
     }
     
 }
-
-// TODO: Load this from alredy saved files if exist, write into a file when thee app stops working

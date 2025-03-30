@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SavedPosts_ViewController: UIViewController, RedditPost_Shaerable {
+class SavedPosts_ViewController: UIViewController {
     
     private let CELL_ID = "reddit cell"
     
@@ -17,7 +17,11 @@ class SavedPosts_ViewController: UIViewController, RedditPost_Shaerable {
     
     @IBOutlet private weak var tableView: UITableView!
     
-    @IBOutlet private weak var subRedditName: UILabel!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    
+    private var filteredPosts: [RedditPost] = []
+    
+    private var isSearching: Bool = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -35,8 +39,6 @@ class SavedPosts_ViewController: UIViewController, RedditPost_Shaerable {
         
         navigationController?.setNavigationBarHidden(false, animated: false)
         
-        self.subRedditName.text = "/r/iOS"
-        
         // Setting tableView to be resizable based on content
         self.tableView.rowHeight          = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 400
@@ -45,27 +47,7 @@ class SavedPosts_ViewController: UIViewController, RedditPost_Shaerable {
         self.tableView.dataSource = self
         self.tableView.delegate   = self
         
-        // self.tableView.reloadData()
-        
-    }
-    
-    // TODO: Place it somewhere else
-    private var postForSharing: RedditPost?
-    
-    func sharePost(_ post: RedditPost) {
-        self.postForSharing = post
-        openAcivityVC()
-    }
-    
-    @objc func openAcivityVC() {
-        guard let post = self.postForSharing else {
-            assert(false, "Trying to share a nil valued post")
-        }
-        
-        // TODO: Insted of the title share url
-        let items = [post.title]
-        let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        present(ac, animated: true)
+        self.searchBar.delegate   = self
     }
     
 }
@@ -73,19 +55,20 @@ class SavedPosts_ViewController: UIViewController, RedditPost_Shaerable {
 extension SavedPosts_ViewController: UITableViewDataSource {
     // How many rows will be in the table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return SavedRedditPosts.saved.count
-        
-        
-        
+        return isSearching ? self.filteredPosts.count : SavedRedditPosts.saved.count
     }
     
     // Cell creation
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! RedditPost_TableCell
-        let redditPost = SavedRedditPosts.saved[indexPath.row]
+        let redditPost = isSearching ? self.filteredPosts[indexPath.row] : SavedRedditPosts.saved[indexPath.row]
         cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost, vc: self, state: .insideTheListOfSaved)
+        
+//        print("\nDebug")
+//        print("\(redditPost.title)")
+//        print("\(redditPost.images.first)\n")
+        
         return cell
         
         
@@ -108,11 +91,13 @@ extension SavedPosts_ViewController: UITableViewDataSource {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        // Since we are in the saved posts table, i dont want the table to refresh everytime a post get unsaved. Also if user does it accidentally they cant save it back, cause its gone. This way i kinda unssafely make posts unsaved inside the list of saved (whitch is kinda prohibited but makes sence here). The main thing is then to remove them from saved once we move back into notmal list of posts. If that is not done properly, asserts will catch it. Everywhere where SaveRedditPost.save / .unsave is used asserts are present
         
         if isMovingFromParent {
-            // UNSAFE REMVING OF THE NEWLY INSAVED POSTS
+            // UNSAFE REMVING OF THE NEWLY uNSAVED POSTS
             SavedRedditPosts.saved.removeAll(where: { $0.isSaved == false })
         }
+        
     }
     
 }
@@ -121,10 +106,43 @@ extension SavedPosts_ViewController: UITableViewDataSource {
 extension SavedPosts_ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        self.lastSeletedPost = SavedRedditPosts.saved[indexPath.row]
+        self.lastSeletedPost = isSearching ? filteredPosts[indexPath.row] : SavedRedditPosts.saved[indexPath.row]
         self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
         
-        
     }
+}
+
+extension SavedPosts_ViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            isSearching = false
+        } else {
+            isSearching = true
+            filteredPosts = SavedRedditPosts.saved.filter { $0.title.lowercased().contains(searchText.lowercased()) }
+        }
+        DispatchQueue.main.async {
+            [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.isSearching = false
+        self.searchBar.text = ""
+        self.tableView.reloadData()
+        self.searchBar.resignFirstResponder()
+    }
+}
+
+extension SavedPosts_ViewController: RedditPost_Shaerable {
+    
+    func sharePost(_ post: RedditPost) {
+        let items = ["https://www.reddit.com/r/\(post.domain)/comments/\(post.id)"]
+        let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        DispatchQueue.main.async {
+            [weak self] in
+            self?.present(ac, animated: true)
+        }
+    }
+    
 }

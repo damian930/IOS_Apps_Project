@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Reddit json structure
 struct RawRedditResponce: Codable {
     let data: HeadingData
     
@@ -46,6 +47,7 @@ struct RawRedditResponce: Codable {
 // =========================================================
 
 final class RedditPost: Codable, Equatable {
+    // used for asserts
     static func == (lhs: RedditPost, rhs: RedditPost) -> Bool {
         return lhs.id == rhs.id &&
                        lhs.domain == rhs.domain &&
@@ -79,6 +81,22 @@ final class RedditPost: Codable, Equatable {
         self.author_fullname = author_fullname
         self.num_comments    = num_comments
     }
+    
+    var description: String {
+            return """
+            RedditPost(
+                id: \(id),
+                domain: \(domain),
+                title: \(title),
+                rating: \(rating),
+                images: \(images),
+                time: \(time),
+                isSaved: \(isSaved),
+                author_fullname: \(author_fullname),
+                num_comments: \(num_comments)
+            )
+            """
+        }
 }
 
 // =========================================================

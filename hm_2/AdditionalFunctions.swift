@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+// Used for controller
+// Reddit post can be shared, but it might be neted into a table
+// If it is, then we need to know where to open the ActivityView from within the RedditPostView
+// So we store a pointer to the Controller at whitch the RedditPost is nesting, to be able to share, those controller are to be Shaerable.
+// So use this protocol
 protocol RedditPost_Shaerable: AnyObject {
     func sharePost(_ post: RedditPost)
 }
@@ -26,7 +31,7 @@ extension UIView {
         
         NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: container, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
     }
-        
+    
 }
 
 // Truncates the given string and also add an optinal prefix

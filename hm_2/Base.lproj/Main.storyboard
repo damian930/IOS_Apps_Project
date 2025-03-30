@@ -41,7 +41,7 @@
                                                 <color key="baseForegroundColor" systemColor="systemGreenColor"/>
                                             </buttonConfiguration>
                                             <connections>
-                                                <action selector="filterSavedPosts:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uXE-hq-bTr"/>
+                                                <action selector="openSavedPosts:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8xf-vJ-a4L"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -119,17 +119,20 @@
                                     <rect key="frame" x="0.0" y="0.0" width="430" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SubReddit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9oD-Zl-Ce3">
-                                            <rect key="frame" x="163" y="8" width="104" height="28"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="cih-2B-7JZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="430" height="44"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="MQV-bP-hsJ" id="NRj-PA-b09"/>
+                                            </connections>
+                                        </searchBar>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstItem="9oD-Zl-Ce3" firstAttribute="centerY" secondItem="ehd-ke-5N8" secondAttribute="centerY" id="by6-ke-Znw"/>
-                                        <constraint firstItem="9oD-Zl-Ce3" firstAttribute="centerX" secondItem="ehd-ke-5N8" secondAttribute="centerX" id="ia3-Yu-9Mu"/>
+                                        <constraint firstAttribute="trailing" secondItem="cih-2B-7JZ" secondAttribute="trailing" id="TyK-kC-FBO"/>
+                                        <constraint firstItem="cih-2B-7JZ" firstAttribute="top" secondItem="ehd-ke-5N8" secondAttribute="top" id="nJk-VP-wqC"/>
+                                        <constraint firstItem="cih-2B-7JZ" firstAttribute="leading" secondItem="ehd-ke-5N8" secondAttribute="leading" id="qRn-u8-akS"/>
+                                        <constraint firstAttribute="bottom" secondItem="cih-2B-7JZ" secondAttribute="bottom" symbolic="YES" id="vzc-ZF-AvR"/>
                                     </constraints>
                                 </view>
                                 <prototypes>
@@ -170,7 +173,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="s5m-cE-w4E"/>
                     <connections>
-                        <outlet property="subRedditName" destination="9oD-Zl-Ce3" id="k5y-k7-Nho"/>
+                        <outlet property="searchBar" destination="cih-2B-7JZ" id="aDQ-Gg-rAe"/>
                         <outlet property="tableView" destination="Hfh-96-F1I" id="ZRi-OQ-9bj"/>
                         <segue destination="qtO-CA-ZoV" kind="show" identifier="specific reddit post" id="RPg-s6-du5"/>
                     </connections>
@@ -228,7 +231,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="RPg-s6-du5"/>
+        <segue reference="wkj-zc-KoS"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="bookmark.fill" width="14" height="21"/>
