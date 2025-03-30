@@ -50,13 +50,13 @@ final class SavedRedditPosts {
 //        }
 //    }
 //    
-    static func dangerous_unsave(_ post: RedditPost) {
-        for (index, _) in saved.enumerated() {
-            if saved[index].id == post.id {
-                saved[index].isSaved = false
-            }
-        }
-    }
+//    static func dangerous_unsave(_ post: RedditPost) {
+//        for (index, _) in saved.enumerated() {
+//            if saved[index].id == post.id {
+//                saved[index].isSaved = false
+//            }
+//        }
+//    }
     
     //TODO: move it somewhere better
     static func createSavedFolder() {

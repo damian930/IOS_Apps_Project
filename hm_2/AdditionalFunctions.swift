@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+protocol RedditPost_Shaerable: AnyObject {
+    func sharePost(_ post: RedditPost)
+}
+
 extension UIView {
     func fixInView(_ container: UIView!)  {
         self.translatesAutoresizingMaskIntoConstraints = false;

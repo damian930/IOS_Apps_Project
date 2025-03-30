@@ -37,7 +37,7 @@
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="p1q-Or-Dez"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="plain" image="bookmark">
+                                            <buttonConfiguration key="configuration" style="plain" image="bookmark.fill">
                                                 <color key="baseForegroundColor" systemColor="systemGreenColor"/>
                                             </buttonConfiguration>
                                             <connections>
@@ -96,11 +96,88 @@
                         <outlet property="subRedditName" destination="Br6-u6-ZBc" id="uKr-26-Z6Y"/>
                         <outlet property="tableView" destination="eFK-sm-iR9" id="zli-kM-wVj"/>
                         <segue destination="qtO-CA-ZoV" kind="show" identifier="specific reddit post" id="wkj-zc-KoS"/>
+                        <segue destination="MQV-bP-hsJ" kind="show" identifier="saved posts" id="Vay-Dt-1zc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="55.813953488372093" y="-3.218884120171674"/>
+            <point key="canvasLocation" x="54" y="-3"/>
+        </scene>
+        <!--Saved Posts View Controller-->
+        <scene sceneID="yEy-mo-TE5">
+            <objects>
+                <viewController id="MQV-bP-hsJ" customClass="SavedPosts_ViewController" customModule="hm_2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3oH-7c-ihc">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Hfh-96-F1I">
+                                <rect key="frame" x="0.0" y="0.0" width="430" height="898"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="separatorColor" systemColor="labelColor"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="ehd-ke-5N8">
+                                    <rect key="frame" x="0.0" y="0.0" width="430" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SubReddit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9oD-Zl-Ce3">
+                                            <rect key="frame" x="163" y="8" width="104" height="28"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="9oD-Zl-Ce3" firstAttribute="centerY" secondItem="ehd-ke-5N8" secondAttribute="centerY" id="by6-ke-Znw"/>
+                                        <constraint firstItem="9oD-Zl-Ce3" firstAttribute="centerX" secondItem="ehd-ke-5N8" secondAttribute="centerX" id="ia3-Yu-9Mu"/>
+                                    </constraints>
+                                </view>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reddit cell" id="k5b-Zd-aC1" customClass="RedditPost_TableCell" customModule="hm_2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="94" width="430" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="k5b-Zd-aC1" id="m7m-rW-3A2">
+                                            <rect key="frame" x="0.0" y="0.0" width="430" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NIh-Cs-Uxx" customClass="RedditPostView" customModule="hm_2" customModuleProvider="target">
+                                                    <rect key="frame" x="2" y="0.0" width="426" height="43.666666666666664"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="NIh-Cs-Uxx" firstAttribute="leading" secondItem="m7m-rW-3A2" secondAttribute="leading" constant="2" id="BNa-FS-hcx"/>
+                                                <constraint firstItem="NIh-Cs-Uxx" firstAttribute="top" secondItem="m7m-rW-3A2" secondAttribute="top" id="WTj-M8-yfG"/>
+                                                <constraint firstAttribute="bottom" secondItem="NIh-Cs-Uxx" secondAttribute="bottom" id="ahW-O7-PYs"/>
+                                                <constraint firstAttribute="trailing" secondItem="NIh-Cs-Uxx" secondAttribute="trailing" constant="2" id="wkm-gB-llj"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="redditPostView" destination="NIh-Cs-Uxx" id="xbM-Px-gGx"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="xZi-5Z-UVx"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Hfh-96-F1I" firstAttribute="trailing" secondItem="xZi-5Z-UVx" secondAttribute="trailing" id="BO4-SA-TG3"/>
+                            <constraint firstItem="Hfh-96-F1I" firstAttribute="top" secondItem="3oH-7c-ihc" secondAttribute="top" id="FEo-zg-lYd"/>
+                            <constraint firstItem="Hfh-96-F1I" firstAttribute="leading" secondItem="xZi-5Z-UVx" secondAttribute="leading" id="Yyl-my-qLk"/>
+                            <constraint firstItem="xZi-5Z-UVx" firstAttribute="bottom" secondItem="Hfh-96-F1I" secondAttribute="bottom" id="qay-tW-AUA"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="s5m-cE-w4E"/>
+                    <connections>
+                        <outlet property="subRedditName" destination="9oD-Zl-Ce3" id="k5y-k7-Nho"/>
+                        <outlet property="tableView" destination="Hfh-96-F1I" id="ZRi-OQ-9bj"/>
+                        <segue destination="qtO-CA-ZoV" kind="show" identifier="specific reddit post" id="RPg-s6-du5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n4l-A1-7gX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1137" y="-233"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8Nz-md-mK1">
@@ -147,11 +224,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vPh-SI-04r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="938" y="-3"/>
+            <point key="canvasLocation" x="1107" y="545"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="RPg-s6-du5"/>
+    </inferredMetricsTieBreakers>
     <resources>
-        <image name="bookmark" width="14" height="21"/>
+        <image name="bookmark.fill" width="14" height="21"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
