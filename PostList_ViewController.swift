@@ -17,7 +17,7 @@ final class PostList_ViewController: UIViewController {
     
     private var isFetchingOrRemovingData = false
     
-    private var lastSeletedPost: RedditPost?
+    private var lastSelectedPost: RedditPost?
     
     @IBOutlet private weak var tableView: UITableView!
     
@@ -52,7 +52,7 @@ final class PostList_ViewController: UIViewController {
             
             // Self is responsible for data and behavior (Fat View Controller)
             self?.tableView.dataSource = self
-            self?.tableView.delegate   = self
+//            self?.tableView.delegate   = self
         }
         
         // Feting the original data
@@ -111,6 +111,11 @@ final class PostList_ViewController: UIViewController {
         self.performSegue(withIdentifier: self.GO_TO_SAVED_POSTS, sender: nil)
     }
     
+    func openPost(_ post: RedditPost) {
+        self.lastSelectedPost = post
+        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
+    }
+    
 }
 
 extension PostList_ViewController: UITableViewDataSource {
@@ -122,6 +127,7 @@ extension PostList_ViewController: UITableViewDataSource {
     // Cell creation
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! RedditPost_TableCell
+        cell.configure(vc: self)
         let redditPost = SavedRedditPosts.loaded[indexPath.row]
         cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost, vc: self, state: .insdeTheDefaultPostsList)
         return cell
@@ -148,7 +154,7 @@ extension PostList_ViewController: UITableViewDataSource {
         switch segue.identifier {
         case self.GO_TO_SPECIFIC_POST:
             let nextVC = segue.destination as! SelectedRedditPost_ViewController
-            guard let lastSeletedPost = self.lastSeletedPost else {
+            guard let lastSeletedPost = self.lastSelectedPost else {
                 assert(false)
             }
             DispatchQueue.main.async {
@@ -164,15 +170,16 @@ extension PostList_ViewController: UITableViewDataSource {
     
 }
 
-extension PostList_ViewController: UITableViewDelegate {
-    
-    // Behaviour on cell selection
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.lastSeletedPost = SavedRedditPosts.loaded[indexPath.row]
-        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
-        
-    }
-}
+//extension PostList_ViewController: UITableViewDelegate {
+//
+//    // Behaviour on cell selection
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.lastSelectedRow = SavedRedditPosts.loaded[indexPath.row]
+//
+//        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
+//
+//    }
+//}
 
 extension PostList_ViewController: RedditPost_Shaerable {
     

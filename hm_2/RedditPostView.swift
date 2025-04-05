@@ -13,6 +13,12 @@ final class RedditPostView: UIView {
     
     private weak var redditPost: RedditPost?
     
+    var post: RedditPost? {
+        get {
+            return self.redditPost
+        }
+    }
+    
     private weak var parentVC: RedditPost_Shaerable?
     
     @IBOutlet weak var contentView: UIView!
@@ -66,9 +72,18 @@ final class RedditPostView: UIView {
         
         self.contentView.fixInView(self)
         
-        // TODO: remove if unused
-        //        shareButton.addTarget(nil, action: #selector(PostList_ViewController.openAcivityVC), for: .touchUpInside)
+        //        let recogniser = UITapGestureRecognizer(target: self, action: #selector(imageDoubleTapped(gesture: )))
+        //        recogniser.numberOfTapsRequired = 2
+        //        self.image.addGestureRecognizer(recogniser)
+        //        self.image.isUserInteractionEnabled = true
     }
+    
+    //    @objc func imageDoubleTapped(gesture: UIGestureRecognizer) {
+    //            if (gesture.view as? UIImageView) != nil {
+    //                print("Image Double Tapped")
+    //
+    //            }
+    //        }
     
     func update_synchronously(newRedditPost: RedditPost, vc: RedditPost_Shaerable?, state: RedditPostState) {
         self.redditPost = newRedditPost
@@ -155,8 +170,8 @@ final class RedditPostView: UIView {
                         print("Error loading image: \(error.localizedDescription)")
                     } else {
                         print("Image loaded successfully from: \(url?.absoluteString ?? "Unknown URL")")
-//                        self?.rating_comments_share_ImageConstraint.isActive = true
-//                        self?.rating_comments_share_TitleConstaint.isActive  = false
+                        //                        self?.rating_comments_share_ImageConstraint.isActive = true
+                        //                        self?.rating_comments_share_TitleConstaint.isActive  = false
                     }
                 }
             }
