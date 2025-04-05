@@ -59,12 +59,14 @@ final class RedditPostView: UIView {
         print(frame)
         
         commonInit()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         commonInit()
+        
     }
     
     private func commonInit() {
@@ -72,18 +74,77 @@ final class RedditPostView: UIView {
         
         self.contentView.fixInView(self)
         
-        //        let recogniser = UITapGestureRecognizer(target: self, action: #selector(imageDoubleTapped(gesture: )))
-        //        recogniser.numberOfTapsRequired = 2
-        //        self.image.addGestureRecognizer(recogniser)
-        //        self.image.isUserInteractionEnabled = true
+        let recogniser = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+        recogniser.numberOfTapsRequired = 2
+        self.contentView.addGestureRecognizer(recogniser)
+        self.contentView.isUserInteractionEnabled = true
     }
     
-    //    @objc func imageDoubleTapped(gesture: UIGestureRecognizer) {
-    //            if (gesture.view as? UIImageView) != nil {
-    //                print("Image Double Tapped")
-    //
-    //            }
-    //        }
+    @objc func doubleTapped() {
+        print("Book Mark Animation")
+        
+        animateBookmark()
+        
+//        print("contentView: \(self.contentView.layer.sublayers?.count)")
+//        print("image: \(self.image.layer.sublayers?.count)")
+        
+        
+        
+    }
+    
+    private func animateBookmark()  {
+        guard let post = self.redditPost else {
+            assert(false, "Usage of a nil reddit post value")
+        }
+        
+        print(post.images.isEmpty)
+        if post.images.isEmpty {
+            let midX = self.title.bounds.width / 2
+            let midY = self.title.bounds.height / 2
+            
+            // create a new UIView and add it to the view controller
+            let myView = BookmarkView(frame: CGRect(x: midX - 50,
+                                                    y: midY - 50,
+                                                    width: 100,
+                                                    height: 100))
+            myView.alpha = 0
+            self.title.addSubview(myView)
+            
+            UIView.animate(withDuration: 0.4, animations: {
+                myView.alpha = 1
+            }) { _ in
+                UIView.animate(withDuration: 0.2, animations: {
+                    myView.alpha = 0
+                }) { _ in
+                    myView.removeFromSuperview()
+                }
+            }
+        }
+        else {
+            let midX = self.image.bounds.width / 2
+            let midY = self.image.bounds.height / 2
+            
+            // create a new UIView and add it to the view controller
+            let myView = BookmarkView(frame: CGRect(x: midX - 50,
+                                                    y: midY - 50,
+                                                    width: 100,
+                                                    height: 100))
+            myView.alpha = 0
+            self.image.addSubview(myView)
+            
+            UIView.animate(withDuration: 0.4, animations: {
+                myView.alpha = 1
+            }) { _ in
+                UIView.animate(withDuration: 0.2, animations: {
+                    myView.alpha = 0
+                }) { _ in
+                    myView.removeFromSuperview()
+                }
+            }
+        }
+        
+        
+    }
     
     func update_synchronously(newRedditPost: RedditPost, vc: RedditPost_Shaerable?, state: RedditPostState) {
         self.redditPost = newRedditPost
