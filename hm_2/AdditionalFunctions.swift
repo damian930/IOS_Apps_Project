@@ -17,6 +17,14 @@ protocol RedditPost_Shaerable: AnyObject {
     func sharePost(_ post: RedditPost)
 }
 
+protocol RedditPost_SingleTappable: AnyObject {
+    func singleTapHandler(post: RedditPost)
+}
+
+protocol RedditPost_DoubleTappable: AnyObject {
+    func doubleTapHandler(post: RedditPost)
+}
+
 extension UIView {
     func fixInView(_ container: UIView!)  {
         self.translatesAutoresizingMaskIntoConstraints = false;

@@ -222,7 +222,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="bKj-nP-clD"/>
                     <connections>
-                        <outlet property="redditPostView" destination="tb3-or-eMe" id="OxX-61-BFh"/>
+                        <outlet property="redditPostView" destination="tb3-or-eMe" id="xMe-1S-UEd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vPh-SI-04r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

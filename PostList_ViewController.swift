@@ -107,14 +107,12 @@ final class PostList_ViewController: UIViewController {
         
     }
     
+//    TODO: remove this
     @IBAction func openSavedPosts(_ sender: Any) {
         self.performSegue(withIdentifier: self.GO_TO_SAVED_POSTS, sender: nil)
     }
     
-    func openPost(_ post: RedditPost) {
-        self.lastSelectedPost = post
-        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
-    }
+    
     
 }
 
@@ -155,7 +153,7 @@ extension PostList_ViewController: UITableViewDataSource {
         case self.GO_TO_SPECIFIC_POST:
             let nextVC = segue.destination as! SelectedRedditPost_ViewController
             guard let lastSeletedPost = self.lastSelectedPost else {
-                assert(false)
+                assert(false, "last selected is not set, illegal")
             }
             DispatchQueue.main.async {
                 nextVC.configureSync(redditPost: lastSeletedPost, vc: self, state: .insdeTheDefaultPostsList)
@@ -192,6 +190,21 @@ extension PostList_ViewController: RedditPost_Shaerable {
         }
     }
     
+}
+
+extension PostList_ViewController: RedditPost_SingleTappable {
+    
+    func singleTapHandler(post: RedditPost) {
+        self.lastSelectedPost = post
+        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
+    }
+    
+}
+
+extension PostList_ViewController: RedditPost_DoubleTappable {
+    func doubleTapHandler(post: RedditPost) {
+        print("Reddit post with title: \(post.title)")
+    }
 }
 
 

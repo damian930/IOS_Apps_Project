@@ -13,7 +13,7 @@ class SavedPosts_ViewController: UIViewController {
     
     private let GO_TO_SPECIFIC_POST = "specific reddit post"
     
-    private var lastSeletedPost: RedditPost?
+    private var lastSelectedPost: RedditPost?
     
     @IBOutlet private weak var tableView: UITableView!
     
@@ -45,7 +45,7 @@ class SavedPosts_ViewController: UIViewController {
         
         // Self is responsible for data and behavior (Fat View Controller)
         self.tableView.dataSource = self
-        self.tableView.delegate   = self
+//        self.tableView.delegate   = self
         
         self.searchBar.delegate   = self
     }
@@ -62,6 +62,7 @@ extension SavedPosts_ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! RedditPost_TableCell
+        cell.configure(vc: self)
         let redditPost = isSearching ? self.filteredPosts[indexPath.row] : SavedRedditPosts.saved[indexPath.row]
         cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost, vc: self, state: .insideTheListOfSaved)
         
@@ -78,7 +79,7 @@ extension SavedPosts_ViewController: UITableViewDataSource {
         switch segue.identifier {
         case self.GO_TO_SPECIFIC_POST:
             let nextVC = segue.destination as! SelectedRedditPost_ViewController
-            guard let lastSeletedPost = self.lastSeletedPost else {
+            guard let lastSeletedPost = self.lastSelectedPost else {
                 assert(false)
             }
             DispatchQueue.main.async {
@@ -103,14 +104,14 @@ extension SavedPosts_ViewController: UITableViewDataSource {
 }
 
 
-extension SavedPosts_ViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.lastSeletedPost = isSearching ? filteredPosts[indexPath.row] : SavedRedditPosts.saved[indexPath.row]
-        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
-        
-    }
-}
+//extension SavedPosts_ViewController: UITableViewDelegate {
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.lastSelectedPost = isSearching ? filteredPosts[indexPath.row] : SavedRedditPosts.saved[indexPath.row]
+//        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
+//
+//    }
+//}
 
 extension SavedPosts_ViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -145,4 +146,20 @@ extension SavedPosts_ViewController: RedditPost_Shaerable {
         }
     }
     
+}
+
+extension SavedPosts_ViewController: RedditPost_SingleTappable {
+    
+    func singleTapHandler(post: RedditPost) {
+        self.lastSelectedPost = post
+        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
+    }
+    
+}
+
+extension SavedPosts_ViewController: RedditPost_DoubleTappable {
+    func doubleTapHandler(post: RedditPost) {
+        print("Reddit post with title: \(post.title) was double tapped")
+        
+    }
 }
