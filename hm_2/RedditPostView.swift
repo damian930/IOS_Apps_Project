@@ -142,6 +142,41 @@ final class RedditPostView: UIView {
                 }
             }
         }
+        DispatchQueue.main.async {
+            [weak self] in
+            self?.saveAfterDoubleTap()
+        }
+        
+        print("Saved.count: \(SavedRedditPosts.saved.count)")
+    }
+    
+    // TODO: kinda code repeat
+    private func saveAfterDoubleTap() {
+        guard let post = self.redditPost else {
+            assert(false, "Usage of a nil reddit post value")
+        }
+        
+        if post.isSaved {
+            
+        }
+        else {
+            if self.state == .insdeTheDefaultPostsList {
+                post.isSaved = true
+                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+                SavedRedditPosts.save(post)
+                
+                print("Saved a post -> ID: \(post.id), title: \(post.title)")
+            }
+            else if state == .insideTheListOfSaved {
+                assert(SavedRedditPosts.saved.contains(post))
+                // NOTE: unsafe
+                post.isSaved = true
+                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            }
+            else {
+                assert(false, "Unknown reddit post state")
+            }
+        }
         
         
     }
