@@ -75,8 +75,7 @@ final class SavedRedditPosts {
         catch {
             assert(false, "Error writing json into file: \(String(describing: path)), error: \(error)")
         }
-        
-        print("Wrote to file")
+
         
     }
     

@@ -17,7 +17,9 @@ final class SelectedRedditPost_ViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    func configureSync(redditPost: RedditPost, vc: RedditPost_Shaerable, state: RedditPostView.RedditPostState) {
+    func configureSync(redditPost: RedditPost, vc: RedditPost_Shaerable & RedditPost_SingleTappable, state: RedditPostView.RedditPostState) {
+        print(5)
+        print(self.redditPostView)
         self.redditPostView.update_synchronously(newRedditPost: redditPost, vc: vc, state: state)
     }
 

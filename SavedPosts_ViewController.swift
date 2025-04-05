@@ -64,10 +64,8 @@ extension SavedPosts_ViewController: UITableViewDataSource {
         cell.configure(vc: self)
         let redditPost = isSearching ? self.filteredPosts[indexPath.row] : SavedRedditPosts.saved[indexPath.row]
         cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost, vc: self, state: .insideTheListOfSaved)
+
         
-//        print("\nDebug")
-//        print("\(redditPost.title)")
-//        print("\(redditPost.images.first)\n")
         
         return cell
         
@@ -144,11 +142,4 @@ extension SavedPosts_ViewController: RedditPost_SingleTappable {
         self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
     }
     
-}
-
-extension SavedPosts_ViewController: RedditPost_DoubleTappable {
-    func doubleTapHandler(post: RedditPost) {
-        print("Reddit post with title: \(post.title) was double tapped")
-        
-    }
 }

@@ -56,7 +56,6 @@ final class RedditPostView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print(frame)
         
         commonInit()
         
@@ -80,7 +79,8 @@ final class RedditPostView: UIView {
         self.contentView.isUserInteractionEnabled = true
     }
     
-    func update_synchronously(newRedditPost: RedditPost, vc: RedditPost_Shaerable?, state: RedditPostState) {
+    func update_synchronously(newRedditPost: RedditPost, vc: (RedditPost_Shaerable & RedditPost_SingleTappable)?, state: RedditPostState) {
+        print(6)
         self.redditPost = newRedditPost
         self.parentVC   = vc
         self.state      = state
@@ -109,9 +109,6 @@ final class RedditPostView: UIView {
     }
     
     func update_in_paralel_on_main(newRedditPost: RedditPost, vc: RedditPost_Shaerable?, state: RedditPostState) {
-        
-        print("\nDebug")
-        print("\(newRedditPost.title)")
         
         self.redditPost = newRedditPost
         self.parentVC   = vc
@@ -145,7 +142,6 @@ final class RedditPostView: UIView {
     
     private func handleImages(_ images: [String]) {
         if images.isEmpty {
-            print("nil\n")
             DispatchQueue.main.async {
                 [weak self] in
                 self?.image.isHidden = true
@@ -154,8 +150,6 @@ final class RedditPostView: UIView {
             }
         }
         else {
-            print("\(images)\n")
-            
             let imageURL = images[0]
             DispatchQueue.main.async {
                 [weak self] in
@@ -184,17 +178,14 @@ final class RedditPostView: UIView {
         guard let post = self.redditPost else {
             assert(false, "Empty reddit post when trying to save a post")
         }
-        
-        print("\nPost.isSaved: \(post.isSaved)")
-        print("State:        \(self.state)\n")
-        
+    
         if post.isSaved {
             if self.state == .insdeTheDefaultPostsList {
                 post.isSaved = false
                 self.saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
                 SavedRedditPosts.unsave(post)
                 
-                print("Unsaved a post -> ID: \(post.id), title: \(post.title)")
+                
             }
             else if self.state == .insideTheListOfSaved {
                 post.isSaved = false
@@ -210,7 +201,7 @@ final class RedditPostView: UIView {
                 self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
                 SavedRedditPosts.save(post)
                 
-                print("Saved a post -> ID: \(post.id), title: \(post.title)")
+                
             }
             else if state == .insideTheListOfSaved {
                 assert(SavedRedditPosts.saved.contains(post))
@@ -238,7 +229,7 @@ final class RedditPostView: UIView {
     }
     
     @objc func doubleTapped() {
-        print("Double Tapped")
+        
         animateBookmark()
     }
     
@@ -297,7 +288,7 @@ final class RedditPostView: UIView {
             self?.saveAfterDoubleTap()
         }
         
-        print("Saved.count: \(SavedRedditPosts.saved.count)")
+        
     }
     
     private func saveAfterDoubleTap() {
@@ -311,7 +302,7 @@ final class RedditPostView: UIView {
                 self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
                 SavedRedditPosts.save(post)
                 
-                print("Saved a post -> ID: \(post.id), title: \(post.title)")
+                
             }
             else if state == .insideTheListOfSaved {
                 assert(SavedRedditPosts.saved.contains(post))

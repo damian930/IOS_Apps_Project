@@ -86,7 +86,7 @@ final class PostList_ViewController: UIViewController {
             self?.tableView.reloadData()
             self?.isFetchingOrRemovingData = false
             
-            print("Number of loaded posts: \(String(describing: SavedRedditPosts.loaded.count))")
+        
         }
     }
     
@@ -124,7 +124,15 @@ extension PostList_ViewController: UITableViewDataSource {
     // Cell creation
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! RedditPost_TableCell
+        
+        print("\n\n")
+        print("Post title: \(SavedRedditPosts.loaded[indexPath.row].title)")
+        print("Before:     \(cell.vc)")
         cell.configure(vc: self)
+        print("After:      \(cell.vc)")
+        print("\n\n")
+        
+//        cell.configure(vc: self)
         let redditPost = SavedRedditPosts.loaded[indexPath.row]
         cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost, vc: self, state: .insdeTheDefaultPostsList)
         return cell
@@ -150,10 +158,12 @@ extension PostList_ViewController: UITableViewDataSource {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case self.GO_TO_SPECIFIC_POST:
+            print(3)
             let nextVC = segue.destination as! SelectedRedditPost_ViewController
             guard let lastSeletedPost = self.lastSelectedPost else {
                 assert(false, "last selected is not set, illegal")
             }
+            print(4)
             DispatchQueue.main.async {
                 nextVC.configureSync(redditPost: lastSeletedPost, vc: self, state: .insdeTheDefaultPostsList)
             }
@@ -185,15 +195,11 @@ extension PostList_ViewController: RedditPost_SingleTappable {
     
     func singleTapHandler(post: RedditPost) {
         self.lastSelectedPost = post
+        print(2)
         self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
+        
     }
     
-}
-
-extension PostList_ViewController: RedditPost_DoubleTappable {
-    func doubleTapHandler(post: RedditPost) {
-        print("Reddit post with title: \(post.title)")
-    }
 }
 
 

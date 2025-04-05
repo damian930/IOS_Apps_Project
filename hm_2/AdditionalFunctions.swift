@@ -17,12 +17,10 @@ protocol RedditPost_Shaerable: AnyObject {
     func sharePost(_ post: RedditPost)
 }
 
+// TODO: write a better explanation, current one sucks
+//     Used for ViewControllers that can open a separate window when post is pressed
 protocol RedditPost_SingleTappable: AnyObject {
     func singleTapHandler(post: RedditPost)
-}
-
-protocol RedditPost_DoubleTappable: AnyObject {
-    func doubleTapHandler(post: RedditPost)
 }
 
 extension UIView {
