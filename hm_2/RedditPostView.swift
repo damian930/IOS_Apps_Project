@@ -80,107 +80,6 @@ final class RedditPostView: UIView {
         self.contentView.isUserInteractionEnabled = true
     }
     
-    @objc func doubleTapped() {
-        print("Book Mark Animation")
-        
-        animateBookmark()
-        
-//        print("contentView: \(self.contentView.layer.sublayers?.count)")
-//        print("image: \(self.image.layer.sublayers?.count)")
-        
-        
-        
-    }
-    
-    private func animateBookmark()  {
-        guard let post = self.redditPost else {
-            assert(false, "Usage of a nil reddit post value")
-        }
-        
-        print(post.images.isEmpty)
-        if post.images.isEmpty {
-            let midX = self.title.bounds.width / 2
-            let midY = self.title.bounds.height / 2
-            
-            // create a new UIView and add it to the view controller
-            let myView = BookmarkView(frame: CGRect(x: midX - 50,
-                                                    y: midY - 50,
-                                                    width: 100,
-                                                    height: 100))
-            myView.alpha = 0
-            self.title.addSubview(myView)
-            
-            UIView.animate(withDuration: 0.4, animations: {
-                myView.alpha = 1
-            }) { _ in
-                UIView.animate(withDuration: 0.2, animations: {
-                    myView.alpha = 0
-                }) { _ in
-                    myView.removeFromSuperview()
-                }
-            }
-        }
-        else {
-            let midX = self.image.bounds.width / 2
-            let midY = self.image.bounds.height / 2
-            
-            // create a new UIView and add it to the view controller
-            let myView = BookmarkView(frame: CGRect(x: midX - 50,
-                                                    y: midY - 50,
-                                                    width: 100,
-                                                    height: 100))
-            myView.alpha = 0
-            self.image.addSubview(myView)
-            
-            UIView.animate(withDuration: 0.4, animations: {
-                myView.alpha = 1
-            }) { _ in
-                UIView.animate(withDuration: 0.2, animations: {
-                    myView.alpha = 0
-                }) { _ in
-                    myView.removeFromSuperview()
-                }
-            }
-        }
-        DispatchQueue.main.async {
-            [weak self] in
-            self?.saveAfterDoubleTap()
-        }
-        
-        print("Saved.count: \(SavedRedditPosts.saved.count)")
-    }
-    
-    // TODO: kinda code repeat
-    private func saveAfterDoubleTap() {
-        guard let post = self.redditPost else {
-            assert(false, "Usage of a nil reddit post value")
-        }
-        
-        if post.isSaved {
-            
-        }
-        else {
-            if self.state == .insdeTheDefaultPostsList {
-                post.isSaved = true
-                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-                SavedRedditPosts.save(post)
-                
-                print("Saved a post -> ID: \(post.id), title: \(post.title)")
-            }
-            else if state == .insideTheListOfSaved {
-                assert(SavedRedditPosts.saved.contains(post))
-                // NOTE: unsafe
-                post.isSaved = true
-                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-            }
-            else {
-                assert(false, "Unknown reddit post state")
-            }
-        }
-        
-        
-    }
-    
     func update_synchronously(newRedditPost: RedditPost, vc: RedditPost_Shaerable?, state: RedditPostState) {
         self.redditPost = newRedditPost
         self.parentVC   = vc
@@ -266,8 +165,6 @@ final class RedditPostView: UIView {
                         print("Error loading image: \(error.localizedDescription)")
                     } else {
                         print("Image loaded successfully from: \(url?.absoluteString ?? "Unknown URL")")
-                        //                        self?.rating_comments_share_ImageConstraint.isActive = true
-                        //                        self?.rating_comments_share_TitleConstaint.isActive  = false
                     }
                 }
             }
@@ -338,6 +235,95 @@ final class RedditPostView: UIView {
         }
         
         parentVC.sharePost(redditPost)
+    }
+    
+    @objc func doubleTapped() {
+        print("Double Tapped")
+        animateBookmark()
+    }
+    
+    private func animateBookmark()  {
+        guard let post = self.redditPost else {
+            assert(false, "Usage of a nil reddit post value")
+        }
+    
+        if post.images.isEmpty {
+            let midX = self.title.bounds.width  / 2
+            let midY = self.title.bounds.height / 2
+            
+            let myView = BookmarkView(frame: CGRect(x: midX - 50,
+                                                    y: midY - 50,
+                                                    width: 100,
+                                                    height: 100))
+            myView.alpha = 0
+            self.title.addSubview(myView)
+            
+            UIView.animate(withDuration: 0.4,animations: {
+                myView.alpha = 1
+            }) { _ in
+                UIView.animate(withDuration: 0.2, animations: {
+                    myView.alpha = 0
+                }) { _ in
+                    myView.removeFromSuperview()
+                }
+            }
+        }
+        else {
+            let midX = self.image.bounds.width  / 2
+            let midY = self.image.bounds.height / 2
+            
+            // create a new UIView and add it to the view controller
+            let myView = BookmarkView(frame: CGRect(x: midX - 50,
+                                                    y: midY - 50,
+                                                    width: 100,
+                                                    height: 100))
+            myView.alpha = 0
+            self.image.addSubview(myView)
+            
+            // On main out of the box
+            UIView.animate(withDuration: 0.4, animations: {
+                myView.alpha = 1
+            }) { _ in
+                UIView.animate(withDuration: 0.2, animations: {
+                    myView.alpha = 0
+                }) { _ in
+                    myView.removeFromSuperview()
+                }
+            }
+        }
+        
+        DispatchQueue.main.async {
+            [weak self] in
+            self?.saveAfterDoubleTap()
+        }
+        
+        print("Saved.count: \(SavedRedditPosts.saved.count)")
+    }
+    
+    private func saveAfterDoubleTap() {
+        guard let post = self.redditPost else {
+            assert(false, "Usage of a nil reddit post value")
+        }
+        
+        if !post.isSaved {
+            if self.state == .insdeTheDefaultPostsList {
+                post.isSaved = true
+                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+                SavedRedditPosts.save(post)
+                
+                print("Saved a post -> ID: \(post.id), title: \(post.title)")
+            }
+            else if state == .insideTheListOfSaved {
+                assert(SavedRedditPosts.saved.contains(post))
+                // NOTE: unsafe
+                post.isSaved = true
+                self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            }
+            else {
+                assert(false, "Unknown reddit post state")
+            }
+        }
+        
     }
 }
 

@@ -52,7 +52,6 @@ final class PostList_ViewController: UIViewController {
             
             // Self is responsible for data and behavior (Fat View Controller)
             self?.tableView.dataSource = self
-//            self?.tableView.delegate   = self
         }
         
         // Feting the original data
@@ -168,16 +167,6 @@ extension PostList_ViewController: UITableViewDataSource {
     
 }
 
-//extension PostList_ViewController: UITableViewDelegate {
-//
-//    // Behaviour on cell selection
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.lastSelectedRow = SavedRedditPosts.loaded[indexPath.row]
-//
-//        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
-//
-//    }
-//}
 
 extension PostList_ViewController: RedditPost_Shaerable {
     

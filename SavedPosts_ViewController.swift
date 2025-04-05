@@ -45,7 +45,6 @@ class SavedPosts_ViewController: UIViewController {
         
         // Self is responsible for data and behavior (Fat View Controller)
         self.tableView.dataSource = self
-//        self.tableView.delegate   = self
         
         self.searchBar.delegate   = self
     }
@@ -102,16 +101,6 @@ extension SavedPosts_ViewController: UITableViewDataSource {
     }
     
 }
-
-
-//extension SavedPosts_ViewController: UITableViewDelegate {
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.lastSelectedPost = isSearching ? filteredPosts[indexPath.row] : SavedRedditPosts.saved[indexPath.row]
-//        self.performSegue(withIdentifier: self.GO_TO_SPECIFIC_POST, sender: nil)
-//
-//    }
-//}
 
 extension SavedPosts_ViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
