@@ -15,12 +15,17 @@ final class SelectedRedditPost_ViewController: UIViewController {
         super.viewDidLoad()
         
         navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        print("Loaded SelectedRedditPost controller")
     }
     
     func configureSync(redditPost: RedditPost, vc: RedditPost_Shaerable & RedditPost_SingleTappable, state: RedditPostView.RedditPostState) {
+        print("About to configure the redditPostView for SelectedRedditPost controller")
+        
         print(5)
-        print(self.redditPostView)
+        print(String(describing: self.redditPostView))
         self.redditPostView.update_synchronously(newRedditPost: redditPost, vc: vc, state: state)
+        
     }
 
 }

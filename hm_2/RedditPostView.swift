@@ -21,7 +21,7 @@ final class RedditPostView: UIView {
     
     private weak var parentVC: RedditPost_Shaerable?
     
-    @IBOutlet weak var contentView: UIView!
+    @IBOutlet private weak var contentView: UIView!
     
     @IBOutlet private weak var username: UILabel!
     
@@ -58,14 +58,12 @@ final class RedditPostView: UIView {
         super.init(frame: frame)
         
         commonInit()
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         commonInit()
-        
     }
     
     private func commonInit() {
@@ -77,6 +75,7 @@ final class RedditPostView: UIView {
         recogniser.numberOfTapsRequired = 2
         self.contentView.addGestureRecognizer(recogniser)
         self.contentView.isUserInteractionEnabled = true
+        
     }
     
     func update_synchronously(newRedditPost: RedditPost, vc: (RedditPost_Shaerable & RedditPost_SingleTappable)?, state: RedditPostState) {
@@ -137,11 +136,14 @@ final class RedditPostView: UIView {
             else {
                 self?.saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
             }
+            
         }
     }
     
     private func handleImages(_ images: [String]) {
         if images.isEmpty {
+            print("\tNo images for this post, title: \(String(describing: self.redditPost?.title))")
+            
             DispatchQueue.main.async {
                 [weak self] in
                 self?.image.isHidden = true
@@ -150,6 +152,9 @@ final class RedditPostView: UIView {
             }
         }
         else {
+            print("/tImages for this post, title: \(String(describing: self.redditPost?.title))")
+            print("\tImage: \(images[0])")
+            
             let imageURL = images[0]
             DispatchQueue.main.async {
                 [weak self] in
@@ -161,8 +166,16 @@ final class RedditPostView: UIView {
                         print("Image loaded successfully from: \(url?.absoluteString ?? "Unknown URL")")
                     }
                 }
+                
+                
+                self?.image.isHidden = false
+                self?.rating_comments_share_ImageConstraint.isActive = true
+                self?.rating_comments_share_TitleConstaint.isActive  = false
+                
             }
         }
+        
+        
     }
     
     @IBAction private func savedButtonPressed(_ sender: UIButton) {
@@ -178,18 +191,20 @@ final class RedditPostView: UIView {
         guard let post = self.redditPost else {
             assert(false, "Empty reddit post when trying to save a post")
         }
-    
+        
         if post.isSaved {
             if self.state == .insdeTheDefaultPostsList {
                 post.isSaved = false
                 self.saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
                 SavedRedditPosts.unsave(post)
                 
-                
+                print("\tUnsaving post, current state: \(self.state)")
             }
             else if self.state == .insideTheListOfSaved {
                 post.isSaved = false
                 self.saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+                
+                print("\tUnsaving post unsafely, current state: \(self.state)")
             }
             else {
                 assert(false, "Unknown reddit post state")
@@ -201,13 +216,15 @@ final class RedditPostView: UIView {
                 self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
                 SavedRedditPosts.save(post)
                 
-                
+                print("\tSaving post, current state: \(self.state)")
             }
             else if state == .insideTheListOfSaved {
                 assert(SavedRedditPosts.saved.contains(post))
                 // NOTE: unsafe
                 post.isSaved = true
                 self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+                
+                print("\tSaving post safely, current state: \(self.state)")
             }
             else {
                 assert(false, "Unknown reddit post state")
@@ -226,10 +243,10 @@ final class RedditPostView: UIView {
         }
         
         parentVC.sharePost(redditPost)
+        
     }
     
     @objc func doubleTapped() {
-        
         animateBookmark()
     }
     
@@ -237,7 +254,7 @@ final class RedditPostView: UIView {
         guard let post = self.redditPost else {
             assert(false, "Usage of a nil reddit post value")
         }
-    
+        
         if post.images.isEmpty {
             let midX = self.title.bounds.width  / 2
             let midY = self.title.bounds.height / 2
@@ -258,6 +275,9 @@ final class RedditPostView: UIView {
                     myView.removeFromSuperview()
                 }
             }
+            
+            print("\tNo image for this post with title: \(post.title.prefix(10))")
+            print("\tAnimating in the middle of the title")
         }
         else {
             let midX = self.image.bounds.width  / 2
@@ -281,13 +301,15 @@ final class RedditPostView: UIView {
                     myView.removeFromSuperview()
                 }
             }
+            
+            print("\tImage exists for this post with title: \(post.title.prefix(10))")
+            print("\tAnimating in the middle of the image")
         }
         
         DispatchQueue.main.async {
             [weak self] in
             self?.saveAfterDoubleTap()
         }
-        
         
     }
     
@@ -301,8 +323,6 @@ final class RedditPostView: UIView {
                 post.isSaved = true
                 self.saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
                 SavedRedditPosts.save(post)
-                
-                
             }
             else if state == .insideTheListOfSaved {
                 assert(SavedRedditPosts.saved.contains(post))

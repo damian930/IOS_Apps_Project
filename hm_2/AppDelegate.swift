@@ -13,18 +13,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let dispatchGroup = DispatchGroup()
-        
+
         dispatchGroup.enter()
         DispatchQueue.global(qos: .userInitiated).async {
             SavedRedditPosts.start()
-            
+
             dispatchGroup.leave()
         }
-        
-        
+
+
         dispatchGroup.notify(queue: .main) {
             print("Saved posts when app started(count = \(SavedRedditPosts.saved.count): \(SavedRedditPosts.saved) \n")
-            
+
         }
         return true
     }

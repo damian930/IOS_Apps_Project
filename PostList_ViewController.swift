@@ -52,6 +52,7 @@ final class PostList_ViewController: UIViewController {
             
             // Self is responsible for data and behavior (Fat View Controller)
             self?.tableView.dataSource = self
+            self?.tableView.delegate   = self
         }
         
         // Feting the original data
@@ -125,34 +126,18 @@ extension PostList_ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! RedditPost_TableCell
         
-        print("\n\n")
-        print("Post title: \(SavedRedditPosts.loaded[indexPath.row].title)")
-        print("Before:     \(cell.vc)")
+        print("Created cell")
+//        print("\n\n")
+//        print("Post title: \(SavedRedditPosts.loaded[indexPath.row].title)")
+//        print("Before:     \(String(describing: cell.vc))")
         cell.configure(vc: self)
-        print("After:      \(cell.vc)")
-        print("\n\n")
+//        print("After:      \(String(describing: cell.vc))")
+//        print("\n\n")
         
 //        cell.configure(vc: self)
         let redditPost = SavedRedditPosts.loaded[indexPath.row]
         cell.redditPostView.update_in_paralel_on_main(newRedditPost: redditPost, vc: self, state: .insdeTheDefaultPostsList)
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        // When to load more posts
-        if indexPath.row == SavedRedditPosts.loaded.count - 1 - 5 {
-            Task {
-                // Getting and loading new data on main thread
-                await getNewData(n: 5)
-            }
-        }
-        
-        // When to remove new posts on main thread
-        let overhead = SavedRedditPosts.loaded.count - 1 - indexPath.row
-        if overhead > 15 {
-            removeNewData(n: 5)
-        }
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -173,6 +158,34 @@ extension PostList_ViewController: UITableViewDataSource {
         default:
             assert(false, "Unknown segue request")
         }
+    }
+    
+}
+
+
+extension PostList_ViewController: UITableViewDelegate {
+    
+    // Behaviour when loading
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        // When to load more posts
+        if indexPath.row == SavedRedditPosts.loaded.count - 1 - 5 {
+            Task {
+                // Getting and loading new data on main thread
+                await getNewData(n: 5)
+                
+                print("New data loaded, new count: \(SavedRedditPosts.loaded.count)")
+            }
+        }
+        
+        // When to remove new posts on main thread
+        let overhead = SavedRedditPosts.loaded.count - 1 - indexPath.row
+        if overhead > 15 {
+            removeNewData(n: 5)
+            
+            print("Removed data loaded, new count: \(SavedRedditPosts.loaded.count)")
+        }
+        
     }
     
 }

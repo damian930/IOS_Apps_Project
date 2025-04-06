@@ -31,16 +31,13 @@ final class RedditPost_TableCell: UITableViewCell {
     }
     
     private func addSingleTapGesture() {
-//        print("\n\n")
-//        print("\(self.vc)")
-//        print("\n\n")
-        
         let singleTapGesture = UITapGestureRecognizer()
         singleTapGesture.addTarget(self, action: #selector(handleSingleTap))
         singleTapGesture.numberOfTapsRequired = 1
         self.addGestureRecognizer(singleTapGesture)
         
-        // TODO: remove the double tap from here, but cant do it now, since it throws an erro in one of the views. Dont know why, those 2 have nothing to do with 1 another
+        // TODO: remove the double tap from here, but cant do it now, since it throws an error in one of the views. Dont know why, those 2 have nothing to do with 1 another
+        // Now i know, it throws it, cause 1 outler is not initilaised before used, its not that big of a deal, but th fact that this when removed result in that just doesnt make sense at all
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
         doubleTapGesture.numberOfTapsRequired = 2
         self.addGestureRecognizer(doubleTapGesture)
@@ -50,7 +47,6 @@ final class RedditPost_TableCell: UITableViewCell {
     
     @objc private func handleSingleTap() {
         
-
         // Perform seque
         guard let vc = self.vc else {
             assert(false, "Trying to use a nil vc, not allowed")
@@ -66,13 +62,6 @@ final class RedditPost_TableCell: UITableViewCell {
 
     @objc private func handleDoubleTap(_ tapGesture: UITapGestureRecognizer) {
         
-
-        guard let vc = self.vc else {
-            assert(false, "Trying to use a nil vc, not allowed")
-        }
-        guard let post = self.redditPostView.post else {
-            assert(false, "Trying to use a nil redditPost, not allowed")
-        }
 
     }
     

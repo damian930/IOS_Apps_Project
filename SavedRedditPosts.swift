@@ -21,11 +21,15 @@ final class SavedRedditPosts {
         }
         
         saved.append(post)
+        
+        print("Saved post with title: \(post.title.prefix(10))")
     }
     
     static func unsave(_ post: RedditPost) {
         let prevSize = saved.count
         saved.removeAll(where: { $0.id == post.id })
+        
+        print("Unsaved post with title: \(post.title.prefix(10))")
         
         assert(saved.count + 1 == prevSize, "Somehow after deleting, the size of list of saved was not saved + 1 == prevSize. prevSize: \(prevSize), newSize: \(saved.count)")
         
@@ -49,12 +53,17 @@ final class SavedRedditPosts {
                 var path = URL.documentsDirectory
                 path.append(path: savedFolderName)
                 fm.createFile(atPath: path.path(), contents: nil)
+                
+                // Creating an empty json 
+                writeToFile()
             }
+            
             
         }
         catch {
             assert(false, "Some wrong with saved posts file creation, error: \(error)")
         }
+    
     }
     
     static private func writeToFile() {
@@ -76,7 +85,6 @@ final class SavedRedditPosts {
             assert(false, "Error writing json into file: \(String(describing: path)), error: \(error)")
         }
 
-        
     }
     
     static private func readFromFile() {
